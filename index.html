@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>ট্যালি খাতা প্রো | স্মার্ট ডিজিটাল খাতা</title>
+  <link rel="manifest" href="./manifest.json" />
+  <meta name="theme-color" content="#0f172a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- Google Fonts (Hind Siliguri for Bengali) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Firebase SDKs (Compat version for instant browser/PWA compatibility) -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Hind Siliguri"', '"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#ecfdf5',
+              100: '#d1fae5',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+              dark: '#0f172a'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Hind Siliguri', 'Plus Jakarta Sans', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col antialiased">
+
+  <!-- ================= AUTH STATE: LOADING SPINNER ================= -->
+  <div id="authLoading" class="fixed inset-0 bg-slate-950 z-50 flex flex-col items-center justify-center gap-4">
+    <div class="w-16 h-16 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
+    <p class="text-slate-300 font-semibold text-lg tracking-wide">ট্যালি খাতা লোড হচ্ছে...</p>
+  </div>
+
+  <!-- ================= AUTH SCREEN (WHEN LOGGED OUT) ================= -->
+  <div id="loginScreen" class="fixed inset-0 bg-slate-950 z-40 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-8 text-center shadow-2xl relative overflow-hidden">
+      <!-- Ambient Glow -->
+      <div class="absolute -top-24 -right-24 w-48 h-48 bg-emerald-500/20 rounded-full blur-3xl"></div>
+      <div class="absolute -bottom-24 -left-24 w-48 h-48 bg-rose-500/20 rounded-full blur-3xl"></div>
+
+      <div class="w-20 h-20 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-2xl flex items-center justify-center mx-auto mb-6 text-3xl shadow-lg shadow-emerald-500/10">
+        <i class="fa-solid fa-book-bookmark"></i>
+      </div>
+
+      <h1 class="text-3xl font-extrabold text-white tracking-tight mb-2">ট্যালি খাতা <span class="text-emerald-400">প্রো</span></h1>
+      <p class="text-slate-400 text-sm mb-8 leading-relaxed">ব্যবসায়িক হিসাব, কাস্টমার বাকি ও ক্যাশ ম্যানেজমেন্টের আধুনিক ও নিরাপদ ক্লাউড প্ল্যাটফর্ম।</p>
+
+      <button id="googleLoginBtn" onclick="handleGoogleSignIn()" class="w-full bg-white hover:bg-slate-100 text-slate-900 font-bold py-3.5 px-5 rounded-2xl transition duration-200 flex items-center justify-center gap-3 shadow-xl">
+        <svg class="w-5 h-5" viewBox="0 0 24 24">
+          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+        </svg>
+        <span class="text-sm font-semibold">Google দিয়ে শুরু করুন (১০০% নিরাপদ)</span>
+      </button>
+
+      <p class="text-xs text-slate-500 mt-6">আপনার ডেটা Google Firebase ক্লাউডে সুরক্ষিত থাকবে। ফোন পরিবর্তন করলেও কোনো হিসাব হারাবে না।</p>
+    </div>
+  </div>
+
+  <!-- ================= MAIN APP SCREEN (WHEN LOGGED IN) ================= -->
+  <div id="mainApp" class="flex-1 flex flex-col max-w-4xl w-full mx-auto pb-24">
+    
+    <!-- TOP APP BAR -->
+    <header class="sticky top-0 z-30 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 text-slate-950 flex items-center justify-center font-black text-lg shadow-md shadow-emerald-500/20">
+          <i class="fa-solid fa-book"></i>
+        </div>
+        <div>
+          <h2 id="appShopTitle" class="text-base font-bold text-white leading-tight">মেসার্স মারুফ ট্রেডার্স</h2>
+          <div class="flex items-center gap-1.5 mt-0.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span class="text-[11px] text-slate-400 font-medium">লাইভ ক্লাউড সিঙ্ক</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- User Profile & Sign out -->
+      <div class="flex items-center gap-2">
+        <img id="userAvatar" src="" class="w-8 h-8 rounded-full border border-slate-700 object-cover" alt="User" />
+        <button onclick="handleSignOut()" title="লগআউট" class="text-slate-400 hover:text-rose-400 p-2 rounded-lg hover:bg-slate-800 transition">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- DASHBOARD BENTO STATS -->
+    <section class="p-4 grid grid-cols-2 sm:grid-cols-4 gap-3">
+      <!-- Total Customer Due (মোট বাকি পাওনা) -->
+      <div class="bg-gradient-to-br from-rose-950/40 to-slate-900 border border-rose-900/40 rounded-2xl p-4 shadow-sm relative overflow-hidden">
+        <div class="text-rose-400 text-xs font-semibold mb-1 flex items-center gap-1">
+          <i class="fa-solid fa-hand-holding-dollar"></i> মোট বাকি পাওনা
+        </div>
+        <div id="statTotalDue" class="text-xl sm:text-2xl font-black text-white">৳ ০</div>
+        <p class="text-[10px] text-slate-400 mt-1">কাস্টমারদের কাছে পাবেন</p>
+      </div>
+
+      <!-- Total Supplier Payable (মহাজনের দেনা) -->
+      <div class="bg-gradient-to-br from-amber-950/40 to-slate-900 border border-amber-900/40 rounded-2xl p-4 shadow-sm relative overflow-hidden">
+        <div class="text-amber-400 text-xs font-semibold mb-1 flex items-center gap-1">
+          <i class="fa-solid fa-building"></i> মহাজন দেনা
+        </div>
+        <div id="statTotalPayable" class="text-xl sm:text-2xl font-black text-white">৳ ০</div>
+        <p class="text-[10px] text-slate-400 mt-1">সাপ্লায়ারকে দিতে হবে</p>
+      </div>
+
+      <!-- Today Cash In (আজকের জমা) -->
+      <div class="bg-gradient-to-br from-emerald-950/40 to-slate-900 border border-emerald-900/40 rounded-2xl p-4 shadow-sm relative overflow-hidden">
+        <div class="text-emerald-400 text-xs font-semibold mb-1 flex items-center gap-1">
+          <i class="fa-solid fa-circle-down"></i> আজকের জমা
+        </div>
+        <div id="statTodayCash" class="text-xl sm:text-2xl font-black text-white">৳ ০</div>
+        <p class="text-[10px] text-slate-400 mt-1">আজ ক্যাশ জমা হয়েছে</p>
+      </div>
+
+      <!-- Today Due Given (আজকের বাকি) -->
+      <div class="bg-gradient-to-br from-indigo-950/40 to-slate-900 border border-indigo-900/40 rounded-2xl p-4 shadow-sm relative overflow-hidden">
+        <div class="text-indigo-400 text-xs font-semibold mb-1 flex items-center gap-1">
+          <i class="fa-solid fa-receipt"></i> আজকের বাকি
+        </div>
+        <div id="statTodayDue" class="text-xl sm:text-2xl font-black text-white">৳ ০</div>
+        <p class="text-[10px] text-slate-400 mt-1">আজ বাকি দেওয়া হয়েছে</p>
+      </div>
+    </section>
+
+    <!-- SEARCH & ACTION BAR -->
+    <div class="px-4 pb-2 flex items-center gap-2">
+      <div class="relative flex-1">
+        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
+        <input id="searchInput" oninput="filterCustomers()" type="text" placeholder="কাস্টমারের নাম বা ফোন নম্বর খুঁজুন..." class="w-full bg-slate-800/80 border border-slate-700/80 rounded-xl pl-9 pr-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition" />
+      </div>
+      <button onclick="openAddCustomerModal()" class="bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white text-sm font-bold px-4 py-2.5 rounded-xl transition flex items-center gap-1.5 shadow-lg shadow-emerald-600/20 shrink-0">
+        <i class="fa-solid fa-user-plus text-xs"></i>
+        <span>নতুন কাস্টমার</span>
+      </button>
+    </div>
+
+    <!-- CUSTOMER LIST -->
+    <main class="flex-1 px-4 py-2">
+      <div class="flex items-center justify-between text-xs text-slate-400 mb-2 font-medium px-1">
+        <span id="customerCountLabel">কাস্টমার তালিকা (০ জন)</span>
+        <span>বর্তমান ব্যালেন্স</span>
+      </div>
+
+      <!-- List Container -->
+      <div id="customerList" class="space-y-2">
+        <!-- Dynamic populated by JS -->
+      </div>
+
+      <!-- Empty State -->
+      <div id="emptyCustomerState" class="hidden text-center py-16 px-4">
+        <div class="w-16 h-16 bg-slate-800 text-slate-500 rounded-full flex items-center justify-center mx-auto mb-3 text-2xl">
+          <i class="fa-solid fa-users"></i>
+        </div>
+        <h3 class="text-white font-bold text-base mb-1">কোনো কাস্টমার পাওয়া যায়নি</h3>
+        <p class="text-slate-400 text-xs max-w-xs mx-auto mb-4">হিসাব শুরু করতে উপরে 'নতুন কাস্টমার' বাটনে ক্লিক করে প্রথম কাস্টমার যোগ করুন।</p>
+        <button onclick="openAddCustomerModal()" class="bg-slate-800 hover:bg-slate-700 text-emerald-400 border border-emerald-500/30 text-xs font-bold px-4 py-2 rounded-xl transition">
+          + কাস্টমার যোগ করুন
+        </button>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- ================= ADD CUSTOMER MODAL ================= -->
+  <div id="addCustomerModal" class="fixed inset-0 bg-black/70 z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4 backdrop-blur-sm">
+    <div class="bg-slate-900 border border-slate-800 rounded-t-3xl sm:rounded-3xl max-w-md w-full p-6 shadow-2xl">
+      <div class="flex items-center justify-between mb-4 border-b border-slate-800 pb-3">
+        <h3 class="text-base font-bold text-white flex items-center gap-2">
+          <i class="fa-solid fa-user-plus text-emerald-400"></i> নতুন কাস্টমার যোগ করুন
+        </h3>
+        <button onclick="closeAddCustomerModal()" class="text-slate-400 hover:text-white p-1">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <form onsubmit="handleSaveCustomer(event)" class="space-y-3.5">
+        <div>
+          <label class="text-xs text-slate-300 font-semibold block mb-1">কাস্টমারের নাম *</label>
+          <input id="newCustName" required type="text" placeholder="যেমন: রহিম আহমেদ" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500" />
+        </div>
+
+        <div>
+          <label class="text-xs text-slate-300 font-semibold block mb-1">মোবাইল নম্বর</label>
+          <input id="newCustPhone" type="tel" placeholder="০১৭XXXXXXXX" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500" />
+        </div>
+
+        <div>
+          <label class="text-xs text-slate-300 font-semibold block mb-1">ঠিকানা (ঐচ্ছিক)</label>
+          <input id="newCustAddress" type="text" placeholder="বাজার রোড, দোকান নং ৪" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500" />
+        </div>
+
+        <div>
+          <label class="text-xs text-slate-300 font-semibold block mb-1">পূর্বের কোনো বাকি থাকলে (৳)</label>
+          <input id="newCustInitialDue" type="number" min="0" step="any" placeholder="০" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500" />
+        </div>
+
+        <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl text-sm transition mt-4 shadow-lg shadow-emerald-600/20">
+          সংরক্ষণ করুন
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= CUSTOMER LEDGER (খাতা) DETAIL MODAL ================= -->
+  <div id="ledgerModal" class="fixed inset-0 bg-black/80 z-50 hidden flex flex-col backdrop-blur-sm">
+    <!-- Header -->
+    <div class="bg-slate-900 border-b border-slate-800 px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <button onclick="closeLedgerModal()" class="text-slate-400 hover:text-white p-1">
+          <i class="fa-solid fa-arrow-left text-lg"></i>
+        </button>
+        <div>
+          <h3 id="ledgerCustName" class="text-base font-bold text-white leading-tight">করিম উদ্দিন</h3>
+          <p id="ledgerCustPhone" class="text-xs text-slate-400">০১৭০০০০০০০০</p>
+        </div>
+      </div>
+      <div class="text-right">
+        <span class="text-[10px] text-slate-400 uppercase font-semibold block">বর্তমান বাকি</span>
+        <span id="ledgerCustBalance" class="text-base font-black text-rose-400">৳ ০</span>
+      </div>
+    </div>
+
+    <!-- Quick Action Ribbon (WhatsApp Reminder & Call) -->
+    <div class="bg-slate-800/60 border-b border-slate-800 px-4 py-2 flex items-center justify-between">
+      <span class="text-xs text-slate-300 font-medium">রিমাইন্ডার ও যোগাযোগ:</span>
+      <div class="flex items-center gap-2">
+        <a id="whatsappReminderLink" href="#" target="_blank" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition">
+          <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp তাগাদা
+        </a>
+        <a id="phoneCallLink" href="#" class="bg-slate-700 hover:bg-slate-600 text-white text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition">
+          <i class="fa-solid fa-phone text-xs"></i> কল
+        </a>
+      </div>
+    </div>
+
+    <!-- Transaction Timeline -->
+    <div class="flex-1 overflow-y-auto p-4 space-y-2.5 no-scrollbar">
+      <div class="flex items-center justify-between text-xs text-slate-400 mb-2 font-medium">
+        <span>লেনদেনের ইতিহাস</span>
+        <span>টাকার পরিমাণ</span>
+      </div>
+      <div id="ledgerTxList" class="space-y-2">
+        <!-- Populated dynamically -->
+      </div>
+      <div id="emptyTxState" class="hidden text-center py-12 text-slate-500 text-xs">
+        এই কাস্টমারের কোনো লেনদেন পাওয়া যায়নি। নিচে থেকে বাকি বা জমা যোগ করুন।
+      </div>
+    </div>
+
+    <!-- Bottom Action Bar (বাকি দিলাম / টাকা পেলাম) -->
+    <div class="bg-slate-900 border-t border-slate-800 p-3 grid grid-cols-2 gap-3">
+      <button onclick="openTxModal('due')" class="bg-rose-600 hover:bg-rose-500 text-white font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 text-sm shadow-lg shadow-rose-600/20 active:scale-95 transition">
+        <i class="fa-solid fa-arrow-trend-up"></i>
+        <span>বাকি দিলাম (-)</span>
+      </button>
+      <button onclick="openTxModal('cash')" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 text-sm shadow-lg shadow-emerald-600/20 active:scale-95 transition">
+        <i class="fa-solid fa-arrow-trend-down"></i>
+        <span>টাকা পেলাম (+)</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ================= ADD TRANSACTION MODAL ================= -->
+  <div id="txModal" class="fixed inset-0 bg-black/75 z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4 backdrop-blur-sm">
+    <div class="bg-slate-900 border border-slate-800 rounded-t-3xl sm:rounded-3xl max-w-md w-full p-6 shadow-2xl">
+      <div class="flex items-center justify-between mb-4 border-b border-slate-800 pb-3">
+        <h3 id="txModalTitle" class="text-base font-bold text-white flex items-center gap-2">
+          <!-- Dynamic -->
+        </h3>
+        <button onclick="closeTxModal()" class="text-slate-400 hover:text-white p-1">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <form onsubmit="handleSaveTransaction(event)" class="space-y-4">
+        <div>
+          <label class="text-xs text-slate-300 font-semibold block mb-1">টাকার পরিমাণ (৳) *</label>
+          <input id="txAmountInput" required type="number" step="any" min="1" placeholder="০.০০" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-xl font-bold text-white focus:outline-none focus:border-emerald-500 text-center" />
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <label class="text-xs text-slate-300 font-semibold">বিবরণ / পণ্যের নাম</label>
+            <!-- Speech to Text Bangla Button -->
+            <button type="button" onclick="startVoiceInput()" id="voiceBtn" class="text-xs text-emerald-400 hover:text-emerald-300 font-medium flex items-center gap-1">
+              <i class="fa-solid fa-microphone"></i> <span>মুখে বলুন</span>
+            </button>
+          </div>
+          <input id="txNoteInput" type="text" placeholder="যেমন: চাল ২ বস্তা, তেল ৫ লিটার..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500" />
+        </div>
+
+        <div>
+          <label class="text-xs text-slate-300 font-semibold block mb-1">পেমেন্ট মাধ্যম</label>
+          <div class="grid grid-cols-3 gap-2 text-xs font-semibold">
+            <label class="flex items-center justify-center p-2 rounded-xl border border-slate-700 bg-slate-800 text-slate-200 cursor-pointer has-[:checked]:border-emerald-500 has-[:checked]:bg-emerald-950/40 has-[:checked]:text-emerald-400">
+              <input type="radio" name="payMethod" value="cash" checked class="hidden" /> নগদ (Cash)
+            </label>
+            <label class="flex items-center justify-center p-2 rounded-xl border border-slate-700 bg-slate-800 text-slate-200 cursor-pointer has-[:checked]:border-pink-500 has-[:checked]:bg-pink-950/40 has-[:checked]:text-pink-400">
+              <input type="radio" name="payMethod" value="bkash" class="hidden" /> বিকাশ (bKash)
+            </label>
+            <label class="flex items-center justify-center p-2 rounded-xl border border-slate-700 bg-slate-800 text-slate-200 cursor-pointer has-[:checked]:border-amber-500 has-[:checked]:bg-amber-950/40 has-[:checked]:text-amber-400">
+              <input type="radio" name="payMethod" value="nagad" class="hidden" /> নগদ (Nagad)
+            </label>
+          </div>
+        </div>
+
+        <button type="submit" id="txSubmitBtn" class="w-full text-white font-bold py-3 rounded-xl text-sm transition mt-4 shadow-lg">
+          নিশ্চিত করুন
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= JAVASCRIPT LOGIC ================= -->
+  <script>
+    // 1. Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDFglcZIiHFHG9KBsVcEUBN4Y-_soHkS7U",
+      authDomain: "tallykhata-135fa.firebaseapp.com",
+      projectId: "tallykhata-135fa",
+      storageBucket: "tallykhata-135fa.firebasestorage.app",
+      messagingSenderId: "1014552374530",
+      appId: "1:1014552374530:web:719614f5867b0f1221e61b",
+      measurementId: "G-GN48BH4SRG"
+    };
+
+    // 2. Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // Enable Offline Persistence for zero lag
+    db.enablePersistence({ synchronizeTabs: true }).catch(err => {
+      console.warn("Firestore offline persistence notice:", err.code);
+    });
+
+    // 3. State Management
+    let currentUser = null;
+    let customersList = [];
+    let activeCustomer = null;
+    let activeTxType = 'due'; // 'due' or 'cash'
+    let unsubscribeCustomers = null;
+    let unsubscribeTransactions = null;
+
+    // 4. Auth State Listener
+    auth.onAuthStateChanged((user) => {
+      const authLoading = document.getElementById("authLoading");
+      const loginScreen = document.getElementById("loginScreen");
+      const mainApp = document.getElementById("mainApp");
+
+      authLoading.classList.add("hidden");
+
+      if (user) {
+        currentUser = user;
+        loginScreen.classList.add("hidden");
+        mainApp.classList.remove("hidden");
+        document.getElementById("userAvatar").src = user.photoURL || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
+        initDataListeners();
+      } else {
+        currentUser = null;
+        if (unsubscribeCustomers) unsubscribeCustomers();
+        if (unsubscribeTransactions) unsubscribeTransactions();
+        loginScreen.classList.remove("hidden");
+        mainApp.classList.add("hidden");
+      }
+    });
+
+    // Google Sign In
+    async function handleGoogleSignIn() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      try {
+        await auth.signInWithPopup(provider);
+      } catch (err) {
+        console.error("Google login error:", err);
+        auth.signInWithRedirect(provider);
+      }
+    }
+
+    // Sign Out
+    function handleSignOut() {
+      if (confirm("আপনি কি লগআউট করতে চান?")) {
+        auth.signOut();
+      }
+    }
+
+    // 5. Realtime Firestore Listeners
+    function initDataListeners() {
+      if (!currentUser) return;
+
+      const custRef = db.collection("users").doc(currentUser.uid).collection("customers");
+      unsubscribeCustomers = custRef.orderBy("created_at", "desc").onSnapshot((snapshot) => {
+        customersList = [];
+        snapshot.forEach((doc) => {
+          customersList.push({ id: doc.id, ...doc.data() });
+        });
+        renderCustomerList(customersList);
+        calculateDashboardStats();
+      }, (error) => {
+        console.error("Customers listener error:", error);
+      });
+    }
+
+    // Render Customer List
+    function renderCustomerList(list) {
+      const container = document.getElementById("customerList");
+      const emptyState = document.getElementById("emptyCustomerState");
+      const countLabel = document.getElementById("customerCountLabel");
+
+      container.innerHTML = "";
+      countLabel.textContent = `কাস্টমার তালিকা (${list.length} জন)`;
+
+      if (list.length === 0) {
+        emptyState.classList.remove("hidden");
+        return;
+      }
+      emptyState.classList.add("hidden");
+
+      list.forEach((cust) => {
+        const balance = cust.balance || 0;
+        let balanceBadge = '';
+
+        if (balance > 0) {
+          balanceBadge = `<div class="text-right"><span class="text-rose-400 font-bold text-sm">৳ ${balance.toLocaleString('bn-BD')}</span><span class="text-[10px] text-rose-400 block font-medium">বাকি পাওনা</span></div>`;
+        } else if (balance < 0) {
+          balanceBadge = `<div class="text-right"><span class="text-emerald-400 font-bold text-sm">৳ ${Math.abs(balance).toLocaleString('bn-BD')}</span><span class="text-[10px] text-emerald-400 block font-medium">অগ্রিম জমা</span></div>`;
+        } else {
+          balanceBadge = `<div class="text-right"><span class="text-slate-400 font-bold text-sm">৳ ০</span><span class="text-[10px] text-slate-500 block font-medium">পরিশোধিত</span></div>`;
+        }
+
+        const card = document.createElement("div");
+        card.className = "bg-slate-800/80 hover:bg-slate-800 border border-slate-700/60 rounded-2xl p-3.5 flex items-center justify-between transition active:scale-[0.99] cursor-pointer shadow-sm";
+        card.onclick = () => openCustomerLedger(cust);
+
+        card.innerHTML = `
+          <div class="flex items-center gap-3">
+            <div class="w-11 h-11 rounded-xl bg-slate-700 text-emerald-400 font-bold flex items-center justify-center text-base border border-slate-600">
+              ${cust.name ? cust.name.charAt(0).toUpperCase() : 'C'}
+            </div>
+            <div>
+              <h4 class="text-sm font-bold text-white">${cust.name}</h4>
+              <p class="text-xs text-slate-400">${cust.phone || 'নম্বর নেই'}</p>
+            </div>
+          </div>
+          ${balanceBadge}
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // Filter Customers (Search)
+    function filterCustomers() {
+      const q = document.getElementById("searchInput").value.toLowerCase().trim();
+      const filtered = customersList.filter(c => 
+        (c.name && c.name.toLowerCase().includes(q)) || 
+        (c.phone && c.phone.includes(q))
+      );
+      renderCustomerList(filtered);
+    }
+
+    // Calculate Summary Stats
+    function calculateDashboardStats() {
+      let totalDue = 0;
+      customersList.forEach(c => {
+        if (c.balance > 0) totalDue += c.balance;
+      });
+      document.getElementById("statTotalDue").textContent = `৳ ${totalDue.toLocaleString('bn-BD')}`;
+    }
+
+    // 6. Add Customer Logic
+    function openAddCustomerModal() {
+      document.getElementById("addCustomerModal").classList.remove("hidden");
+    }
+    function closeAddCustomerModal() {
+      document.getElementById("addCustomerModal").classList.add("hidden");
+    }
+
+    async function handleSaveCustomer(e) {
+      e.preventDefault();
+      const name = document.getElementById("newCustName").value.trim();
+      const phone = document.getElementById("newCustPhone").value.trim();
+      const address = document.getElementById("newCustAddress").value.trim();
+      const initialDue = parseFloat(document.getElementById("newCustInitialDue").value) || 0;
+
+      if (!name) return;
+
+      try {
+        const custRef = db.collection("users").doc(currentUser.uid).collection("customers");
+        const doc = await custRef.add({
+          name,
+          phone,
+          address,
+          balance: initialDue,
+          created_at: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        if (initialDue > 0) {
+          await db.collection("users").doc(currentUser.uid).collection("transactions").add({
+            customerId: doc.id,
+            type: "due",
+            amount: initialDue,
+            note: "পূর্বের বকেয়া বাকি",
+            paymentMethod: "cash",
+            created_at: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        }
+
+        closeAddCustomerModal();
+        e.target.reset();
+      } catch (err) {
+        alert("কাস্টমার সেভ করতে সমস্যা হয়েছে: " + err.message);
+      }
+    }
+
+    // 7. Customer Ledger Logic
+    function openCustomerLedger(cust) {
+      activeCustomer = cust;
+      document.getElementById("ledgerCustName").textContent = cust.name;
+      document.getElementById("ledgerCustPhone").textContent = cust.phone || "নম্বর নেই";
+      
+      const bal = cust.balance || 0;
+      const balEl = document.getElementById("ledgerCustBalance");
+      if (bal > 0) {
+        balEl.textContent = `৳ ${bal.toLocaleString('bn-BD')} (পাওনা)`;
+        balEl.className = "text-base font-black text-rose-400";
+      } else if (bal < 0) {
+        balEl.textContent = `৳ ${Math.abs(bal).toLocaleString('bn-BD')} (অগ্রিম)`;
+        balEl.className = "text-base font-black text-emerald-400";
+      } else {
+        balEl.textContent = "৳ ০ (পরিশোধিত)";
+        balEl.className = "text-base font-black text-slate-300";
+      }
+
+      const waLink = document.getElementById("whatsappReminderLink");
+      const phoneClean = cust.phone ? cust.phone.replace(/[^0-9]/g, '') : '';
+      const formattedPhone = phoneClean.startsWith('0') ? '88' + phoneClean : phoneClean;
+      const msg = encodeURIComponent(`আসসালামু আলাইকুম ${cust.name} ভাই, আপনার কাছে আমাদের দোকানের বকেয়া বাকি আছে ৳${bal}। অনুগ্রহ করে দ্রুত পরিশোধের অনুরোধ রইল। ধন্যবাদ।`);
+      waLink.href = cust.phone ? `https://wa.me/${formattedPhone}?text=${msg}` : '#';
+
+      document.getElementById("phoneCallLink").href = cust.phone ? `tel:${cust.phone}` : '#';
+
+      document.getElementById("ledgerModal").classList.remove("hidden");
+      loadCustomerTransactions(cust.id);
+    }
+
+    function closeLedgerModal() {
+      document.getElementById("ledgerModal").classList.add("hidden");
+      if (unsubscribeTransactions) unsubscribeTransactions();
+    }
+
+    function loadCustomerTransactions(customerId) {
+      const txRef = db.collection("users").doc(currentUser.uid).collection("transactions");
+      if (unsubscribeTransactions) unsubscribeTransactions();
+
+      unsubscribeTransactions = txRef.where("customerId", "==", customerId).orderBy("created_at", "desc").onSnapshot((snapshot) => {
+        const listEl = document.getElementById("ledgerTxList");
+        const emptyEl = document.getElementById("emptyTxState");
+        listEl.innerHTML = "";
+
+        if (snapshot.empty) {
+          emptyEl.classList.remove("hidden");
+          return;
+        }
+        emptyEl.classList.add("hidden");
+
+        snapshot.forEach((doc) => {
+          const tx = doc.data();
+          const isDue = tx.type === "due";
+          const dateStr = tx.created_at ? new Date(tx.created_at.toDate()).toLocaleDateString('bn-BD', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : 'আজ';
+
+          const item = document.createElement("div");
+          item.className = "bg-slate-800/90 border border-slate-700/60 rounded-xl p-3 flex items-center justify-between";
+          item.innerHTML = `
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold ${isDue ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20' : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'}">
+                <i class="fa-solid ${isDue ? 'fa-arrow-up' : 'fa-arrow-down'}"></i>
+              </div>
+              <div>
+                <h5 class="text-xs font-bold text-white">${tx.note || (isDue ? 'বাকি দেওয়া হলো' : 'টাকা জমা হলো')}</h5>
+                <span class="text-[10px] text-slate-400">${dateStr} • ${tx.paymentMethod === 'bkash' ? 'বিকাশ' : tx.paymentMethod === 'nagad' ? 'নগদ' : 'ক্যাশ'}</span>
+              </div>
+            </div>
+            <div class="text-right font-black text-sm ${isDue ? 'text-rose-400' : 'text-emerald-400'}">
+              ${isDue ? '-' : '+'} ৳ ${(tx.amount || 0).toLocaleString('bn-BD')}
+            </div>
+          `;
+          listEl.appendChild(item);
+        });
+      });
+    }
+
+    // 8. Add Transaction Logic
+    function openTxModal(type) {
+      activeTxType = type;
+      const titleEl = document.getElementById("txModalTitle");
+      const submitBtn = document.getElementById("txSubmitBtn");
+
+      if (type === 'due') {
+        titleEl.innerHTML = `<i class="fa-solid fa-arrow-trend-up text-rose-400"></i> বাকি দিলাম (-)`;
+        submitBtn.className = "w-full bg-rose-600 hover:bg-rose-500 text-white font-bold py-3 rounded-xl text-sm transition mt-4 shadow-lg shadow-rose-600/20";
+        submitBtn.textContent = "বাকি হিসেবে সংরক্ষণ করুন";
+      } else {
+        titleEl.innerHTML = `<i class="fa-solid fa-arrow-trend-down text-emerald-400"></i> টাকা পেলাম (+)`;
+        submitBtn.className = "w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl text-sm transition mt-4 shadow-lg shadow-emerald-600/20";
+        submitBtn.textContent = "জমা হিসেবে সংরক্ষণ করুন";
+      }
+
+      document.getElementById("txAmountInput").value = "";
+      document.getElementById("txNoteInput").value = "";
+      document.getElementById("txModal").classList.remove("hidden");
+    }
+
+    function closeTxModal() {
+      document.getElementById("txModal").classList.add("hidden");
+    }
+
+    async function handleSaveTransaction(e) {
+      e.preventDefault();
+      if (!activeCustomer) return;
+
+      const amount = parseFloat(document.getElementById("txAmountInput").value);
+      const note = document.getElementById("txNoteInput").value.trim();
+      const payMethod = document.querySelector('input[name="payMethod"]:checked').value;
+
+      if (!amount || amount <= 0) return;
+
+      try {
+        const delta = (activeTxType === "due") ? amount : -amount;
+        const newBalance = (activeCustomer.balance || 0) + delta;
+
+        // 1. Save Transaction
+        await db.collection("users").doc(currentUser.uid).collection("transactions").add({
+          customerId: activeCustomer.id,
+          type: activeTxType,
+          amount: amount,
+          note: note,
+          paymentMethod: payMethod,
+          created_at: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        // 2. Update Customer Balance
+        await db.collection("users").doc(currentUser.uid).collection("customers").doc(activeCustomer.id).update({
+          balance: newBalance
+        });
+
+        activeCustomer.balance = newBalance;
+        openCustomerLedger(activeCustomer);
+        closeTxModal();
+      } catch (err) {
+        alert("লেনদেন সেভ করতে সমস্যা হয়েছে: " + err.message);
+      }
+    }
+
+    // 9. Voice to Text (Bangla Web Speech API)
+    function startVoiceInput() {
+      if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+        alert("আপনার ব্রাউজারে ভয়েস টাইপিং সাপোর্ট করে না। Google Chrome ব্যবহার করুন।");
+        return;
+      }
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'bn-BD';
+      recognition.interimResults = false;
+
+      const voiceBtn = document.getElementById("voiceBtn");
+      voiceBtn.innerHTML = `<i class="fa-solid fa-circle-dot text-rose-500 animate-ping"></i> <span>শুনছি...</span>`;
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        document.getElementById("txNoteInput").value = transcript;
+        voiceBtn.innerHTML = `<i class="fa-solid fa-microphone"></i> <span>মুখে বলুন</span>`;
+      };
+
+      recognition.onerror = () => {
+        voiceBtn.innerHTML = `<i class="fa-solid fa-microphone"></i> <span>মুখে বলুন</span>`;
+      };
+
+      recognition.start();
+    }
+  </script>
+</body>
+</html>
+
