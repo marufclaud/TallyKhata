@@ -1,11 +1,12 @@
 {
-  "name": "ট্যালি খাতা প্রো - ডিজিটাল হিসাব ও ক্যাশ খাতা",
-  "short_name": "TallyKhata",
-  "description": "স্মার্ট ডিজিটাল খাতা, কাস্টমার বাকি ও ক্যাশ ম্যানেজমেন্ট",
+  "name": "ট্যালিখাতা প্রো - ডিজিটাল হিসাব ও ক্যাশ খাতা",
+  "short_name": "ট্যালিখাতা",
+  "description": "স্মার্ট ডিজিটাল খাতা, কাস্টমার বাকি ও ক্যাশ ম্যানেজমেন্ট বিজনেস ওএস",
   "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#0f172a",
-  "theme_color": "#10b981",
+  "background_color": "#090d16",
+  "theme_color": "#090d16",
   "orientation": "portrait-primary",
   "icons": [
     {
