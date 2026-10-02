@@ -3,23 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <title>ট্যালিখাতা প্রো | স্মার্ট বিজনেস ওএস</title>
+  <title>ট্যালিখাতা প্রো 2080 | সাইবার-ফিউচারিস্টিক বিজনেস ওএস</title>
   <link rel="manifest" href="./manifest.json" />
   <link rel="icon" type="image/png" href="https://i.ibb.co.com/jP5KNhzX/Chat-GPT-Image-Sep-23-2026-12-35-31-AM.png" />
   <link rel="apple-touch-icon" href="https://i.ibb.co.com/jP5KNhzX/Chat-GPT-Image-Sep-23-2026-12-35-31-AM.png" />
-  <meta name="theme-color" content="#090d16" />
+  <meta name="theme-color" content="#030712" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="ট্যালিখাতা" />
+  <meta name="apple-mobile-web-app-title" content="ট্যালিখাতা 2080" />
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- FontAwesome 6.5 Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <!-- Google Fonts: Hind Siliguri (Bengali) & Plus Jakarta Sans (iOS Style Numerals) -->
+  <!-- Google Fonts: Hind Siliguri (Bengali) & Plus Jakarta Sans / Orbitron -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 
   <!-- Firebase SDKs (Compat) -->
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
@@ -31,27 +31,30 @@
       theme: {
         extend: {
           fontFamily: {
-            sans: ['"Hind Siliguri"', '"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-            num: ['"Plus Jakarta Sans"', '-apple-system', 'sans-serif']
+            sans: ['"Hind Siliguri"', '"Plus Jakarta Sans"', 'sans-serif'],
+            num: ['"Space Grotesk"', '"Plus Jakarta Sans"', 'sans-serif'],
+            cyber: ['"Plus Jakarta Sans"', 'sans-serif']
           },
           colors: {
-            ios: {
-              bg: '#f2f2f7',
-              card: '#ffffff',
-              blue: '#007aff',
-              red: '#ff3b30',
+            cyber: {
+              black: '#030712',
+              card: '#090d1a',
+              cardHover: '#0f172a',
+              border: 'rgba(255, 255, 255, 0.08)',
+              borderGlow: 'rgba(244, 63, 94, 0.3)',
               rose: '#f43f5e',
-              green: '#34c759',
-              orange: '#ff9500',
-              dark: '#1c1c1e',
-              border: '#e5e5ea'
+              emerald: '#10b981',
+              cyan: '#06b6d4',
+              violet: '#8b5cf6',
+              amber: '#f59e0b'
             }
           },
           boxShadow: {
-            'ios-card': '0 4px 20px -2px rgba(0, 0, 0, 0.04), 0 1px 4px 0 rgba(0, 0, 0, 0.02)',
-            'ios-dock': '0 -8px 25px rgba(0, 0, 0, 0.04)',
-            'glow-rose': '0 0 25px -4px rgba(244, 63, 94, 0.35)',
-            'glow-emerald': '0 0 25px -4px rgba(52, 199, 89, 0.35)'
+            'cyber-card': '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
+            'glow-rose': '0 0 30px -5px rgba(244, 63, 94, 0.45)',
+            'glow-emerald': '0 0 30px -5px rgba(16, 185, 129, 0.45)',
+            'glow-cyan': '0 0 30px -5px rgba(6, 182, 212, 0.45)',
+            'dock': '0 10px 40px -10px rgba(0, 0, 0, 0.8), 0 0 20px 0 rgba(244, 63, 94, 0.15)'
           }
         }
       }
@@ -60,10 +63,11 @@
 
   <style>
     body {
-      font-family: 'Hind Siliguri', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: 'Hind Siliguri', 'Plus Jakarta Sans', sans-serif;
       -webkit-tap-highlight-color: transparent;
       user-select: none;
-      background: radial-gradient(circle at 50% 0%, #1e293b 0%, #090d16 100%);
+      background: #030712;
+      color: #f8fafc;
     }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -71,311 +75,357 @@
     input[type=number]::-webkit-outer-spin-button { 
       -webkit-appearance: none; margin: 0; 
     }
-    .ios-glass {
-      background: rgba(255, 255, 255, 0.88);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+    
+    /* Cyber Glass & Glow effects */
+    .cyber-glass {
+      background: rgba(9, 13, 26, 0.75);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.07);
     }
-    .ios-sheet {
-      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    .cyber-glass-active {
+      background: rgba(15, 23, 42, 0.9);
+      backdrop-filter: blur(28px);
+      border: 1px solid rgba(244, 63, 94, 0.35);
+      box-shadow: 0 0 25px -5px rgba(244, 63, 94, 0.25);
+    }
+    .cyber-card {
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.7) 0%, rgba(9, 13, 26, 0.85) 100%);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 10px 35px -5px rgba(0, 0, 0, 0.5);
+    }
+    .neon-text-rose {
+      color: #fb7185;
+      text-shadow: 0 0 16px rgba(244, 63, 94, 0.55);
+    }
+    .neon-text-emerald {
+      color: #34d399;
+      text-shadow: 0 0 16px rgba(16, 185, 129, 0.55);
+    }
+    .neon-text-cyan {
+      color: #38bdf8;
+      text-shadow: 0 0 16px rgba(56, 189, 248, 0.55);
+    }
+    .neon-text-amber {
+      color: #fbbf24;
+      text-shadow: 0 0 16px rgba(251, 191, 36, 0.55);
+    }
+    .grid-bg {
+      background-image: radial-gradient(rgba(244, 63, 94, 0.08) 1px, transparent 0);
+      background-size: 24px 24px;
+    }
+    .hologram-line {
+      background: linear-gradient(90deg, transparent, rgba(244, 63, 94, 0.6), transparent);
     }
   </style>
 </head>
-<body class="h-full flex justify-center text-slate-800 antialiased sm:p-4">
+<body class="h-full flex justify-center text-slate-100 antialiased sm:p-4">
 
-  <!-- ================= PHONE FRAME CONTAINER (APPLE iOS STYLE) ================= -->
-  <div class="w-full max-w-md bg-ios-bg min-h-screen sm:min-h-[850px] sm:max-h-[920px] flex flex-col sm:rounded-[44px] shadow-2xl relative overflow-hidden pb-16 sm:border sm:border-slate-800">
+  <!-- ================= 2080s CYBERPHONE CONTAINER ================= -->
+  <div class="w-full max-w-md bg-cyber-black min-h-screen sm:min-h-[860px] sm:max-h-[930px] flex flex-col sm:rounded-[44px] shadow-[0_0_80px_-15px_rgba(244,63,94,0.3)] relative overflow-hidden pb-20 sm:border sm:border-slate-800/80 grid-bg">
 
-    <!-- 1. CLOUD LOGIN WARNING BANNER (IF GUEST) -->
-    <div id="cloudAlertBanner" onclick="toggleAuthModal()" class="bg-gradient-to-r from-amber-500 via-rose-500 to-rose-600 text-white px-3.5 py-1.5 flex items-center justify-between text-[11px] font-bold cursor-pointer active:opacity-90 transition z-30 shadow-sm">
-      <div class="flex items-center gap-1.5">
-        <i class="fa-solid fa-lock text-xs"></i>
-        <span>হিসাব ও বাকি এন্ট্রি করতে Google দিয়ে লগইন করুন</span>
+    <!-- Ambient Glowing Light Orbs in Background -->
+    <div class="absolute -top-32 -left-20 w-64 h-64 bg-rose-600/15 rounded-full blur-[90px] pointer-events-none"></div>
+    <div class="absolute top-1/3 -right-24 w-72 h-72 bg-cyan-600/15 rounded-full blur-[100px] pointer-events-none"></div>
+    <div class="absolute -bottom-24 left-1/4 w-80 h-80 bg-violet-600/15 rounded-full blur-[110px] pointer-events-none"></div>
+
+    <!-- 1. CYBER CLOUD STATUS BAR (GUEST WARNING IF NOT LOGGED IN) -->
+    <div id="cloudAlertBanner" onclick="toggleAuthModal()" class="bg-gradient-to-r from-amber-600/90 via-rose-600/90 to-purple-600/90 backdrop-blur-md text-white px-4 py-2 flex items-center justify-between text-[11px] font-bold cursor-pointer active:opacity-90 transition z-30 shadow-lg border-b border-white/10">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-amber-300 animate-ping"></span>
+        <span>হিসাব ও বাকি এন্ট্রি করতে Google সাইন-ইন করুন</span>
       </div>
-      <span class="bg-white/20 hover:bg-white/30 px-2.5 py-0.5 rounded-full text-[10px] tracking-wide flex items-center gap-1">
-        <span>লগইন</span> <i class="fa-solid fa-arrow-right text-[8px]"></i>
+      <span class="bg-black/30 hover:bg-black/40 px-2.5 py-0.5 rounded-full text-[10px] tracking-wide flex items-center gap-1 border border-white/20">
+        <span>লগইন</span> <i class="fa-solid fa-bolt text-[9px] text-amber-300"></i>
       </span>
     </div>
 
-    <!-- 2. FROSTED iOS TOP HEADER -->
-    <header class="bg-slate-900 text-white pt-4 pb-3.5 px-4 sticky top-0 z-20 shadow-sm border-b border-slate-800">
+    <!-- 2. HOLOGRAPHIC 2080s TOP BAR -->
+    <header class="cyber-glass text-white pt-4 pb-3.5 px-4 sticky top-0 z-20 shadow-md">
       <div class="flex items-center justify-between">
         
-        <!-- Shop Profile Identifier -->
-        <div onclick="openShopSettingsModal()" class="flex items-center gap-2.5 cursor-pointer group active:opacity-80">
+        <!-- Shop Profile with Hologram Gradient Ring -->
+        <div onclick="openShopSettingsModal()" class="flex items-center gap-3 cursor-pointer group active:opacity-80">
           <div class="relative">
-            <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-rose-500 via-pink-500 to-amber-400 p-[1.5px] shadow-md">
-              <div class="w-full h-full bg-slate-900 rounded-[14px] overflow-hidden flex items-center justify-center font-black text-rose-400 text-base">
+            <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-rose-500 via-purple-500 to-cyan-400 p-[2px] shadow-[0_0_20px_-3px_rgba(244,63,94,0.6)] group-hover:shadow-[0_0_25px_0_rgba(6,182,212,0.8)] transition">
+              <div class="w-full h-full bg-slate-950 rounded-[14px] overflow-hidden flex items-center justify-center font-black text-rose-400 text-base">
                 <img id="headerShopLogoImg" src="" class="w-full h-full object-cover hidden" alt="Shop" />
                 <span id="headerShopInitials">দোকান</span>
               </div>
             </div>
-            <span id="headerSyncDot" class="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-amber-500 border-2 border-slate-900" title="স্ট্যাটাস"></span>
+            <span id="headerSyncDot" class="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-amber-400 border-2 border-slate-950 shadow-[0_0_10px_rgba(251,191,36,0.8)]" title="স্ট্যাটাস"></span>
           </div>
           <div>
             <div class="flex items-center gap-1.5">
-              <h1 id="headerShopName" class="font-extrabold text-sm text-white tracking-tight leading-none">আমার দোকান</h1>
-              <i class="fa-solid fa-pen-to-square text-[10px] text-slate-400 group-hover:text-amber-400 transition"></i>
+              <h1 id="headerShopName" class="font-black text-sm text-white tracking-wide leading-none group-hover:text-rose-300 transition">আমার দোকান</h1>
+              <i class="fa-solid fa-pen-nib text-[9px] text-slate-500 group-hover:text-cyan-400 transition"></i>
             </div>
             <span id="headerShopStatus" class="text-[10px] text-slate-400 font-medium tracking-wide flex items-center gap-1 mt-1">
-              <span id="headerLivePulse" class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+              <span id="headerLivePulse" class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
               <span id="headerLiveText">লগইন প্রয়োজন</span>
             </span>
           </div>
         </div>
 
-        <!-- Top Right Actions -->
+        <!-- Top Right Hologram Controls -->
         <div class="flex items-center gap-2">
           <!-- Support Email -->
-          <a href="mailto:marufclaud@gmail.com?subject=TallyKhata%20Support" class="w-8 h-8 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center text-xs transition border border-slate-700/60 shadow-sm" title="সহায়তা">
+          <a href="mailto:marufclaud@gmail.com?subject=TallyKhata%202080%20Support" class="w-8 h-8 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 text-slate-300 hover:text-white flex items-center justify-center text-xs transition border border-white/10 shadow-sm" title="সহায়তা">
             <i class="fa-solid fa-headset text-xs"></i>
           </a>
 
-          <!-- Google Auth Button -->
-          <button id="authBtn" onclick="toggleAuthModal()" class="flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700/60 px-2.5 py-1.5 rounded-xl text-xs font-semibold text-slate-200 transition active:scale-95 shadow-sm">
-            <i id="authBtnIcon" class="fa-solid fa-cloud text-xs text-rose-400"></i>
+          <!-- Google Auth Button with Neon Glow -->
+          <button id="authBtn" onclick="toggleAuthModal()" class="flex items-center gap-1.5 bg-gradient-to-r from-slate-900 to-slate-800 hover:from-slate-800 hover:to-slate-700 border border-white/10 px-3 py-1.5 rounded-xl text-xs font-bold text-slate-200 transition active:scale-95 shadow-glow-rose">
+            <i id="authBtnIcon" class="fa-solid fa-bolt text-xs text-rose-400"></i>
             <span id="authBtnText" class="text-[11px]">লগইন</span>
           </button>
         </div>
       </div>
+      <!-- Futuristic scanning underline -->
+      <div class="hologram-line h-[1px] w-full mt-3 opacity-60"></div>
     </header>
 
-    <!-- ================= SCROLLABLE WORKSPACE ================= -->
-    <main id="mainScrollableArea" class="flex-1 overflow-y-auto no-scrollbar pb-8">
+    <!-- ================= SCROLLABLE 2080 WORKSPACE ================= -->
+    <main id="mainScrollableArea" class="flex-1 overflow-y-auto no-scrollbar pb-8 relative z-10">
 
-      <!-- ================= TAB 1: টালিখাতা (MAIN LEDGER) ================= -->
+      <!-- ================= TAB 1: টালিখাতা (MAIN CYBER LEDGER) ================= -->
       <section id="tab-tally" class="block space-y-3.5 p-3.5">
 
-        <!-- Modern Bento Hero Balance Card -->
-        <div class="relative overflow-hidden rounded-[28px] bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 p-5 text-white shadow-ios-card border border-slate-800">
-          <div class="absolute -top-12 -right-12 w-36 h-36 bg-rose-500/10 rounded-full blur-2xl pointer-events-none"></div>
-          <div class="absolute -bottom-12 -left-12 w-36 h-36 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none"></div>
+        <!-- 2080s Quantum Balance Bento Matrix Card -->
+        <div class="relative overflow-hidden rounded-[32px] cyber-card p-5 border border-white/10 shadow-cyber-card">
+          <!-- Neon Ambient Glow inside card -->
+          <div class="absolute -top-16 -right-16 w-40 h-40 bg-rose-500/20 rounded-full blur-3xl pointer-events-none"></div>
+          <div class="absolute -bottom-16 -left-16 w-40 h-40 bg-cyan-500/20 rounded-full blur-3xl pointer-events-none"></div>
 
-          <div class="flex items-center justify-between text-xs text-slate-400 mb-3 font-semibold">
-            <span class="flex items-center gap-1.5 text-[11px] uppercase tracking-wider text-slate-400 font-bold">
-              <i class="fa-solid fa-wallet text-rose-400"></i> মোট ব্যালেন্স সারসংক্ষেপ
-            </span>
-            <span id="partyCountSummary" class="text-[10px] bg-slate-800 text-slate-300 px-2.5 py-0.5 rounded-full border border-slate-700 font-medium">০ জন কাস্টমার</span>
+          <div class="flex items-center justify-between text-xs text-slate-400 mb-4 font-semibold">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
+              <span class="text-[10px] uppercase tracking-widest text-slate-300 font-extrabold font-num">QUANTUM FINANCIAL OS</span>
+            </div>
+            <span id="partyCountSummary" class="text-[10px] bg-slate-800/80 text-cyan-300 px-2.5 py-0.5 rounded-full border border-cyan-500/30 font-num">০ কাস্টমার</span>
           </div>
 
-          <!-- Numbers Grid -->
-          <div class="grid grid-cols-2 divide-x divide-slate-800/80 mb-4">
+          <!-- Futuristic Numbers Grid -->
+          <div class="grid grid-cols-2 divide-x divide-white/10 mb-5">
+            <!-- মোট বাকি পাওনা (Due) -->
             <div class="pr-3">
-              <span class="text-[11px] text-rose-300/90 font-medium block mb-1">মোট বাকি পাওনা</span>
+              <span class="text-[11px] text-rose-300/80 font-medium block mb-1">মোট বাকি পাওনা</span>
               <div class="flex items-baseline gap-1">
                 <span class="text-sm font-bold text-rose-400 font-num">৳</span>
-                <span id="statTotalDue" class="text-2xl font-black text-white tracking-tight font-num">০</span>
+                <span id="statTotalDue" class="text-3xl font-black tracking-tight font-num neon-text-rose">০</span>
               </div>
             </div>
+            <!-- মহাজন দেনা (Payable) -->
             <div class="pl-4">
               <span class="text-[11px] text-slate-400 font-medium block mb-1">মহাজন দেনা</span>
               <div class="flex items-baseline gap-1">
-                <span class="text-sm font-bold text-slate-500 font-num">৳</span>
-                <span id="statTotalPayable" class="text-2xl font-black text-slate-200 tracking-tight font-num">০</span>
+                <span class="text-sm font-bold text-slate-400 font-num">৳</span>
+                <span id="statTotalPayable" class="text-3xl font-black text-slate-300 tracking-tight font-num neon-text-amber">০</span>
               </div>
             </div>
           </div>
 
-          <!-- Quick Action Buttons -->
-          <div class="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800/80">
-            <button onclick="protectedAction(() => openAddPartyModal('customer'), 'কাস্টমার যোগ করতে')" class="bg-rose-600 hover:bg-rose-500 active:scale-95 text-white font-bold py-2.5 px-3 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow-glow-rose transition">
-              <i class="fa-solid fa-plus text-[10px]"></i> কাস্টমার যোগ
+          <!-- Futuristic Action Buttons with Neon Edge -->
+          <div class="grid grid-cols-2 gap-2.5 pt-3 border-t border-white/10">
+            <button onclick="protectedAction(() => openAddPartyModal('customer'), 'কাস্টমার যোগ করতে')" class="bg-gradient-to-r from-rose-600 via-pink-600 to-rose-600 hover:from-rose-500 hover:to-pink-500 active:scale-95 text-white font-extrabold py-2.5 px-3 rounded-2xl text-xs flex items-center justify-center gap-1.5 shadow-glow-rose transition border border-rose-400/30">
+              <i class="fa-solid fa-user-plus text-[11px]"></i> কাস্টমার যোগ
             </button>
-            <button onclick="protectedAction(() => openAddPartyModal('supplier'), 'মহাজন যোগ করতে')" class="bg-slate-800 hover:bg-slate-700 active:scale-95 text-slate-200 font-bold py-2.5 px-3 rounded-xl text-xs flex items-center justify-center gap-1.5 border border-slate-700 transition">
-              <i class="fa-solid fa-building text-[10px]"></i> মহাজন যোগ
+            <button onclick="protectedAction(() => openAddPartyModal('supplier'), 'মহাজন যোগ করতে')" class="bg-slate-800/80 hover:bg-slate-700/80 active:scale-95 text-slate-200 font-extrabold py-2.5 px-3 rounded-2xl text-xs flex items-center justify-center gap-1.5 border border-white/10 transition hover:border-amber-400/40">
+              <i class="fa-solid fa-building text-[11px] text-amber-400"></i> মহাজন যোগ
             </button>
           </div>
         </div>
 
-        <!-- 3 Feature Shortcuts -->
-        <div class="grid grid-cols-3 gap-2 text-center">
-          <div onclick="switchTab('cash')" class="bg-white hover:bg-slate-50 p-3 rounded-2xl border border-slate-200/80 shadow-ios-card cursor-pointer active:scale-95 transition">
-            <div class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-sm mx-auto mb-1.5 border border-emerald-100">
+        <!-- 3 Modern Hologram Action Badges -->
+        <div class="grid grid-cols-3 gap-2.5 text-center">
+          <div onclick="switchTab('cash')" class="cyber-glass hover:cyber-glass-active p-3.5 rounded-2xl cursor-pointer active:scale-95 transition group">
+            <div class="w-9 h-9 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-sm mx-auto mb-2 border border-emerald-500/30 group-hover:scale-110 transition shadow-glow-emerald">
               <i class="fa-solid fa-calculator"></i>
             </div>
-            <span class="text-xs font-bold text-slate-800 block">ক্যাশবাক্স</span>
-            <span class="text-[9px] text-slate-400">দৈনিক হিসাব</span>
+            <span class="text-xs font-bold text-white block">ক্যাশবাক্স</span>
+            <span class="text-[9px] text-slate-400 font-num">স্মার্ট ক্যাশ</span>
           </div>
 
-          <div onclick="switchTab('qr')" class="bg-white hover:bg-slate-50 p-3 rounded-2xl border border-slate-200/80 shadow-ios-card cursor-pointer active:scale-95 transition">
-            <div class="w-8 h-8 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-sm mx-auto mb-1.5 border border-indigo-100">
+          <div onclick="switchTab('qr')" class="cyber-glass hover:cyber-glass-active p-3.5 rounded-2xl cursor-pointer active:scale-95 transition group">
+            <div class="w-9 h-9 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center text-sm mx-auto mb-2 border border-cyan-500/30 group-hover:scale-110 transition shadow-glow-cyan">
               <i class="fa-solid fa-qrcode"></i>
             </div>
-            <span class="text-xs font-bold text-slate-800 block">QR কোড</span>
-            <span class="text-[9px] text-slate-400">পেমেন্ট গ্রহণ</span>
+            <span class="text-xs font-bold text-white block">QR কোড</span>
+            <span class="text-[9px] text-slate-400 font-num">পেমেন্ট টার্মিনাল</span>
           </div>
 
-          <div onclick="exportCSVReport()" class="bg-white hover:bg-slate-50 p-3 rounded-2xl border border-slate-200/80 shadow-ios-card cursor-pointer active:scale-95 transition">
-            <div class="w-8 h-8 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-sm mx-auto mb-1.5 border border-amber-100">
-              <i class="fa-solid fa-file-arrow-down"></i>
+          <div onclick="exportCSVReport()" class="cyber-glass hover:cyber-glass-active p-3.5 rounded-2xl cursor-pointer active:scale-95 transition group">
+            <div class="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-sm mx-auto mb-2 border border-amber-500/30 group-hover:scale-110 transition">
+              <i class="fa-solid fa-file-excel"></i>
             </div>
-            <span class="text-xs font-bold text-slate-800 block">রিপোর্ট</span>
-            <span class="text-[9px] text-slate-400">Excel ফাইল</span>
+            <span class="text-xs font-bold text-white block">রিপোর্ট</span>
+            <span class="text-[9px] text-slate-400 font-num">এক্সপোর্ট</span>
           </div>
         </div>
 
-        <!-- Search Bar with Pill Switcher -->
-        <div class="space-y-2 pt-1">
+        <!-- Search Bar with Neon Border -->
+        <div class="space-y-2.5 pt-1">
           <div class="relative">
-            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
-            <input id="searchInput" oninput="filterPartyList()" type="text" placeholder="কাস্টমারের নাম বা ফোন নম্বর খুঁজুন..." class="w-full bg-white border border-slate-200/90 rounded-2xl pl-9 pr-4 py-2.5 text-xs text-slate-800 focus:outline-none focus:border-rose-500 transition shadow-sm placeholder-slate-400 font-medium" />
+            <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
+            <input id="searchInput" oninput="filterPartyList()" type="text" placeholder="কাস্টমারের নাম বা ফোন নম্বর খুঁজুন..." class="w-full bg-slate-900/80 border border-white/10 rounded-2xl pl-10 pr-4 py-2.5 text-xs text-white focus:outline-none focus:border-rose-500 transition shadow-inner placeholder-slate-500 font-medium" />
           </div>
 
-          <!-- iOS Segmented Control -->
-          <div class="bg-slate-200/80 p-1 rounded-2xl grid grid-cols-2 text-xs font-bold text-slate-600">
-            <button id="custTabBtn" onclick="togglePartyView('customer')" class="bg-white text-slate-900 py-1.5 rounded-xl shadow-sm transition flex items-center justify-center gap-1.5">
+          <!-- Cyber Segmented Switcher -->
+          <div class="bg-slate-900/90 p-1 rounded-2xl grid grid-cols-2 text-xs font-bold text-slate-400 border border-white/10">
+            <button id="custTabBtn" onclick="togglePartyView('customer')" class="bg-rose-600/90 text-white py-2 rounded-xl shadow-glow-rose transition flex items-center justify-center gap-2">
               <span>কাস্টমার খাতা</span>
-              <span id="custTabBadge" class="bg-rose-100 text-rose-700 text-[10px] px-1.5 py-0.2 rounded-full font-num">০</span>
+              <span id="custTabBadge" class="bg-black/30 text-rose-200 text-[10px] px-2 py-0.2 rounded-full font-num">০</span>
             </button>
-            <button id="suppTabBtn" onclick="togglePartyView('supplier')" class="text-slate-600 py-1.5 rounded-xl transition flex items-center justify-center gap-1.5 hover:text-slate-900">
+            <button id="suppTabBtn" onclick="togglePartyView('supplier')" class="text-slate-400 py-2 rounded-xl transition flex items-center justify-center gap-2 hover:text-white">
               <span>মহাজন খাতা</span>
-              <span id="suppTabBadge" class="bg-slate-300/80 text-slate-700 text-[10px] px-1.5 py-0.2 rounded-full font-num">০</span>
+              <span id="suppTabBadge" class="bg-slate-800 text-slate-300 text-[10px] px-2 py-0.2 rounded-full font-num">০</span>
             </button>
           </div>
         </div>
 
         <!-- Dynamic List Container -->
-        <div id="partyListContainer" class="space-y-2 pt-1"></div>
+        <div id="partyListContainer" class="space-y-2.5 pt-1"></div>
 
-        <!-- Empty State -->
-        <div id="emptyPartyState" class="hidden text-center py-14 px-6 bg-white rounded-3xl border border-dashed border-slate-200 mt-2">
-          <div class="w-16 h-16 bg-slate-100 text-slate-400 rounded-2xl flex items-center justify-center mx-auto mb-3 text-xl">
+        <!-- Empty State in Cyber Dark Theme -->
+        <div id="emptyPartyState" class="hidden text-center py-14 px-6 cyber-glass rounded-3xl border border-dashed border-white/15 mt-2">
+          <div class="w-16 h-16 bg-slate-800/80 text-rose-400 rounded-2xl flex items-center justify-center mx-auto mb-3 text-xl border border-rose-500/20 shadow-glow-rose">
             <i class="fa-solid fa-address-book"></i>
           </div>
-          <h4 class="font-bold text-sm text-slate-800 mb-1">খাতায় কোনো এন্ট্রি নেই</h4>
+          <h4 class="font-extrabold text-sm text-white mb-1">খাতায় কোনো এন্ট্রি নেই</h4>
           <p class="text-xs text-slate-400 max-w-xs mx-auto mb-4 leading-relaxed">
             কাস্টমারের ছবি, নাম ও ফোন নম্বর দিয়ে নতুন হিসাব শুরু করুন।
           </p>
-          <button onclick="protectedAction(() => openAddPartyModal('customer'), 'কাস্টমার যোগ করতে')" class="bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs px-4 py-2 rounded-xl transition active:scale-95 shadow-sm">
-            + নতুন নাম যোগ করুন
+          <button onclick="protectedAction(() => openAddPartyModal('customer'), 'কাস্টমার যোগ করতে')" class="bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-500 hover:to-pink-500 text-white font-extrabold text-xs px-5 py-2.5 rounded-xl transition active:scale-95 shadow-glow-rose border border-rose-400/30">
+            + নতুন কাস্টমার যোগ করুন
           </button>
         </div>
 
       </section>
 
-      <!-- ================= TAB 2: ক্যাশখাতা (CASH REGISTER) ================= -->
+      <!-- ================= TAB 2: ক্যাশখাতা (CASH MATRIX) ================= -->
       <section id="tab-cash" class="hidden p-3.5 space-y-3.5">
         
         <!-- Cash Header Card -->
-        <div class="bg-gradient-to-br from-slate-900 to-slate-950 rounded-[28px] p-5 text-white shadow-ios-card border border-slate-800 relative overflow-hidden">
-          <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-3">
+        <div class="relative overflow-hidden rounded-[32px] cyber-card p-5 border border-white/10 shadow-cyber-card">
+          <div class="flex items-center justify-between border-b border-white/10 pb-3.5 mb-3.5">
             <div>
-              <span class="text-[10px] uppercase font-bold tracking-wider text-slate-400 block mb-0.5">আজকের মোট বিক্রি</span>
+              <span class="text-[10px] uppercase font-extrabold tracking-widest text-slate-400 block mb-0.5 font-num">TODAY'S TURNOVER</span>
               <div class="flex items-baseline gap-1">
                 <span class="text-xs font-bold text-emerald-400 font-num">৳</span>
-                <span id="cashStatTodaySell" class="text-2xl font-black text-white font-num">০</span>
+                <span id="cashStatTodaySell" class="text-3xl font-black text-white font-num neon-text-emerald">০</span>
               </div>
             </div>
             <div class="text-right">
-              <span class="text-[10px] uppercase font-bold tracking-wider text-amber-400 block mb-0.5">বর্তমান ক্যাশ (হাতে নগদ)</span>
+              <span class="text-[10px] uppercase font-extrabold tracking-widest text-amber-400 block mb-0.5 font-num">CURRENT CASH IN HAND</span>
               <div class="flex items-baseline justify-end gap-1">
                 <span class="text-xs font-bold text-amber-400 font-num">৳</span>
-                <span id="cashStatCurrentCash" class="text-2xl font-black text-amber-300 font-num">০</span>
+                <span id="cashStatCurrentCash" class="text-3xl font-black text-amber-300 font-num neon-text-amber">০</span>
               </div>
             </div>
           </div>
 
           <div class="grid grid-cols-2 text-xs pt-0.5">
             <div class="flex items-center gap-1.5 text-slate-300 font-medium">
-              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
               <span>আজ মোট পেলেন:</span>
               <span id="cashStatTodayIn" class="font-bold text-emerald-400 font-num">৳ ০</span>
             </div>
             <div class="flex items-center justify-end gap-1.5 text-slate-300 font-medium">
-              <span class="w-2 h-2 rounded-full bg-rose-400"></span>
+              <span class="w-2 h-2 rounded-full bg-rose-400 animate-pulse"></span>
               <span>আজ মোট দিলেন:</span>
               <span id="cashStatTodayOut" class="font-bold text-rose-400 font-num">৳ ০</span>
             </div>
           </div>
         </div>
 
-        <!-- 4 Action Tiles -->
+        <!-- 4 Quick Cash Action Tiles -->
         <div class="grid grid-cols-2 gap-2.5">
-          <div onclick="protectedAction(() => openCashEntryModal('ক্যাশ বেচা', 'in'), 'ক্যাশ বেচা এন্ট্রি করতে')" class="bg-white hover:bg-emerald-50/40 border border-slate-200/80 rounded-2xl p-3 flex items-center justify-between cursor-pointer active:scale-98 transition shadow-sm">
+          <div onclick="protectedAction(() => openCashEntryModal('ক্যাশ বেচা', 'in'), 'ক্যাশ বেচা এন্ট্রি করতে')" class="cyber-glass hover:cyber-glass-active rounded-2xl p-3 flex items-center justify-between cursor-pointer active:scale-98 transition">
             <div class="flex items-center gap-2.5">
-              <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-sm font-bold border border-emerald-100">
+              <div class="w-9 h-9 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-sm font-bold border border-emerald-500/30 shadow-glow-emerald">
                 <i class="fa-solid fa-cart-shopping"></i>
               </div>
               <div>
-                <h5 class="text-xs font-bold text-slate-900 leading-tight">ক্যাশ বেচা</h5>
-                <span class="text-[10px] text-emerald-600 font-semibold">+ জমা</span>
+                <h5 class="text-xs font-extrabold text-white leading-tight">ক্যাশ বেচা</h5>
+                <span class="text-[10px] text-emerald-400 font-semibold">+ জমা</span>
               </div>
             </div>
-            <span id="tileCashSellVal" class="text-xs font-black text-slate-800 font-num">০</span>
+            <span id="tileCashSellVal" class="text-xs font-black text-slate-200 font-num">০</span>
           </div>
 
-          <div onclick="protectedAction(() => openCashEntryModal('ক্যাশ কেনা', 'out'), 'ক্যাশ কেনা এন্ট্রি করতে')" class="bg-white hover:bg-rose-50/40 border border-slate-200/80 rounded-2xl p-3 flex items-center justify-between cursor-pointer active:scale-98 transition shadow-sm">
+          <div onclick="protectedAction(() => openCashEntryModal('ক্যাশ কেনা', 'out'), 'ক্যাশ কেনা এন্ট্রি করতে')" class="cyber-glass hover:cyber-glass-active rounded-2xl p-3 flex items-center justify-between cursor-pointer active:scale-98 transition">
             <div class="flex items-center gap-2.5">
-              <div class="w-9 h-9 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-sm font-bold border border-rose-100">
+              <div class="w-9 h-9 rounded-xl bg-rose-500/10 text-rose-400 flex items-center justify-center text-sm font-bold border border-rose-500/30 shadow-glow-rose">
                 <i class="fa-solid fa-bag-shopping"></i>
               </div>
               <div>
-                <h5 class="text-xs font-bold text-slate-900 leading-tight">ক্যাশ কেনা</h5>
-                <span class="text-[10px] text-rose-600 font-semibold">- খরচ</span>
+                <h5 class="text-xs font-extrabold text-white leading-tight">ক্যাশ কেনা</h5>
+                <span class="text-[10px] text-rose-400 font-semibold">- খরচ</span>
               </div>
             </div>
-            <span id="tileCashBuyVal" class="text-xs font-black text-slate-800 font-num">০</span>
+            <span id="tileCashBuyVal" class="text-xs font-black text-slate-200 font-num">০</span>
           </div>
 
-          <div onclick="protectedAction(() => openCashEntryModal('দোকান খরচ', 'out'), 'খরচ এন্ট্রি করতে')" class="bg-white hover:bg-amber-50/40 border border-slate-200/80 rounded-2xl p-3 flex items-center justify-between cursor-pointer active:scale-98 transition shadow-sm">
+          <div onclick="protectedAction(() => openCashEntryModal('দোকান খরচ', 'out'), 'খরচ এন্ট্রি করতে')" class="cyber-glass hover:cyber-glass-active rounded-2xl p-3 flex items-center justify-between cursor-pointer active:scale-98 transition">
             <div class="flex items-center gap-2.5">
-              <div class="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-sm font-bold border border-amber-100">
+              <div class="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-sm font-bold border border-amber-500/30">
                 <i class="fa-solid fa-receipt"></i>
               </div>
               <div>
-                <h5 class="text-xs font-bold text-slate-900 leading-tight">দোকান খরচ</h5>
-                <span class="text-[10px] text-amber-600 font-semibold">- খরচ</span>
+                <h5 class="text-xs font-extrabold text-white leading-tight">দোকান খরচ</h5>
+                <span class="text-[10px] text-amber-400 font-semibold">- খরচ</span>
               </div>
             </div>
-            <span id="tileExpenseVal" class="text-xs font-black text-slate-800 font-num">০</span>
+            <span id="tileExpenseVal" class="text-xs font-black text-slate-200 font-num">০</span>
           </div>
 
-          <div onclick="protectedAction(() => openCashEntryModal('মালিক দিল', 'in'), 'মালিকের জমা এন্ট্রি করতে')" class="bg-white hover:bg-purple-50/40 border border-slate-200/80 rounded-2xl p-3 flex items-center justify-between cursor-pointer active:scale-98 transition shadow-sm">
+          <div onclick="protectedAction(() => openCashEntryModal('মালিক দিল', 'in'), 'মালিকের জমা এন্ট্রি করতে')" class="cyber-glass hover:cyber-glass-active rounded-2xl p-3 flex items-center justify-between cursor-pointer active:scale-98 transition">
             <div class="flex items-center gap-2.5">
-              <div class="w-9 h-9 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-sm font-bold border border-purple-100">
+              <div class="w-9 h-9 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center text-sm font-bold border border-purple-500/30">
                 <i class="fa-solid fa-hand-holding-dollar"></i>
               </div>
               <div>
-                <h5 class="text-xs font-bold text-slate-900 leading-tight">মালিক দিল</h5>
-                <span class="text-[10px] text-purple-600 font-semibold">+ জমা</span>
+                <h5 class="text-xs font-extrabold text-white leading-tight">মালিক দিল</h5>
+                <span class="text-[10px] text-purple-400 font-semibold">+ জমা</span>
               </div>
             </div>
-            <span id="tileOwnerInVal" class="text-xs font-black text-slate-800 font-num">০</span>
+            <span id="tileOwnerInVal" class="text-xs font-black text-slate-200 font-num">০</span>
           </div>
         </div>
 
-        <!-- Cash Transaction Timeline -->
-        <div class="bg-white rounded-3xl border border-slate-200/80 p-4 shadow-sm">
-          <div class="flex items-center justify-between border-b border-slate-100 pb-2.5 mb-3">
-            <h4 class="font-bold text-xs text-slate-800 flex items-center gap-2">
+        <!-- Cash Transaction Timeline in Dark Glass -->
+        <div class="cyber-glass rounded-3xl p-4 shadow-sm">
+          <div class="flex items-center justify-between border-b border-white/10 pb-2.5 mb-3">
+            <h4 class="font-bold text-xs text-white flex items-center gap-2">
               <i class="fa-solid fa-clock-rotate-left text-slate-400"></i> দৈনিক ক্যাশ হিস্ট্রি
             </h4>
-            <span id="cashEntryCountBadge" class="text-[10px] bg-slate-100 text-slate-600 font-semibold px-2 py-0.5 rounded-full">০ টি এন্ট্রি</span>
+            <span id="cashEntryCountBadge" class="text-[10px] bg-slate-800 text-slate-300 font-semibold px-2 py-0.5 rounded-full border border-white/10 font-num">০ টি এন্ট্রি</span>
           </div>
 
           <div id="cashListContainer" class="space-y-2"></div>
 
-          <div id="emptyCashState" class="text-center py-12 text-slate-400 text-xs">
+          <div id="emptyCashState" class="text-center py-12 text-slate-500 text-xs">
             আজকে কোনো ক্যাশ এন্ট্রি করা হয়নি। উপরের বাটনে চাপ দিয়ে বেচা/খরচ যোগ করুন।
           </div>
         </div>
       </section>
 
-      <!-- ================= TAB 3: QR কোড ================= -->
+      <!-- ================= TAB 3: QR কোড (CYBER PAYMENT TERMINAL) ================= -->
       <section id="tab-qr" class="hidden p-4 text-center space-y-4">
-        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-ios-card max-w-xs mx-auto relative overflow-hidden">
-          <div class="w-12 h-12 bg-slate-900 text-white rounded-2xl flex items-center justify-center text-xl mx-auto mb-3 shadow-md">
+        <div class="cyber-card rounded-3xl p-6 border border-white/10 shadow-cyber-card max-w-xs mx-auto relative overflow-hidden">
+          <div class="w-12 h-12 bg-gradient-to-tr from-cyan-500 to-blue-600 text-white rounded-2xl flex items-center justify-center text-xl mx-auto mb-3 shadow-glow-cyan">
             <i class="fa-solid fa-qrcode"></i>
           </div>
 
-          <h3 id="qrShopTitle" class="font-black text-base text-slate-900 mb-1">মারুফ স্টোর</h3>
-          <p class="text-xs text-slate-500 mb-4">বিকাশ / নগদ / ব্যাংকের মাধ্যমে পেমেন্ট নিন</p>
+          <h3 id="qrShopTitle" class="font-black text-base text-white mb-1">মারুফ স্টোর</h3>
+          <p class="text-xs text-slate-400 mb-4">বিকাশ / নগদ / ব্যাংকের মাধ্যমে পেমেন্ট নিন</p>
 
-          <div class="p-3 bg-slate-50 rounded-2xl border-2 border-dashed border-slate-200 inline-block mb-4 shadow-inner">
-            <img id="qrDisplayImage" src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=TALLYKHATA-PAYMENT" alt="Payment QR" class="w-52 h-52 mx-auto rounded-xl object-contain bg-white p-2 shadow-sm" />
+          <div class="p-3 bg-white rounded-2xl inline-block mb-4 shadow-[0_0_30px_rgba(255,255,255,0.15)]">
+            <img id="qrDisplayImage" src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=TALLYKHATA-PAYMENT" alt="Payment QR" class="w-52 h-52 mx-auto rounded-xl object-contain bg-white p-1" />
           </div>
 
-          <label class="w-full bg-slate-900 hover:bg-slate-800 active:scale-95 text-white font-bold py-3 px-4 rounded-2xl text-xs flex items-center justify-center gap-2 cursor-pointer shadow-md transition">
+          <label class="w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 active:scale-95 text-white font-extrabold py-3 px-4 rounded-2xl text-xs flex items-center justify-center gap-2 cursor-pointer shadow-glow-cyan transition border border-cyan-400/30">
             <i class="fa-solid fa-cloud-arrow-up text-amber-300"></i>
             <span>নিজের বিকাশ / নগদ QR আপলোড</span>
             <input type="file" accept="image/*" onchange="handleQRUpload(event)" class="hidden" />
@@ -384,112 +434,114 @@
         </div>
       </section>
 
-      <!-- ================= TAB 4: মেনু ও সেটিংস (MENU - UPDATED) ================= -->
+      <!-- ================= TAB 4: মেনু ও সেটিংস (FUTURISTIC MENU) ================= -->
       <section id="tab-menu" class="hidden p-3.5 space-y-3.5">
         
-        <!-- Store Identity Card -->
-        <div class="bg-gradient-to-br from-slate-900 to-slate-950 rounded-3xl p-4 text-white shadow-ios-card border border-slate-800 flex items-center justify-between">
+        <!-- Store Identity Card with Cyber Glass -->
+        <div class="cyber-card rounded-3xl p-4.5 text-white shadow-cyber-card border border-white/10 flex items-center justify-between">
           <div class="flex items-center gap-3">
-            <div class="w-12 h-12 rounded-2xl bg-white/10 border border-white/20 text-rose-400 font-black flex items-center justify-center text-lg overflow-hidden">
-              <img id="menuShopLogoImg" src="" class="w-full h-full object-cover hidden" alt="Shop" />
-              <span id="menuShopInitials">দো</span>
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-rose-500 to-amber-400 p-[1.5px] shadow-glow-rose">
+              <div class="w-full h-full bg-slate-950 rounded-[14px] overflow-hidden flex items-center justify-center font-black text-rose-400 text-lg">
+                <img id="menuShopLogoImg" src="" class="w-full h-full object-cover hidden" alt="Shop" />
+                <span id="menuShopInitials">দো</span>
+              </div>
             </div>
             <div>
-              <h4 id="menuShopName" class="font-extrabold text-sm text-white">আমার দোকান</h4>
-              <p id="menuShopPhone" class="text-xs text-slate-400 font-medium">মোবাইল নম্বর সেট করা হয়নি</p>
-              <span class="text-[9px] bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded-full inline-block mt-1 font-bold">ফ্রি লাইফটাইম লাইসেন্স</span>
+              <h4 id="menuShopName" class="font-black text-sm text-white">আমার দোকান</h4>
+              <p id="menuShopPhone" class="text-xs text-slate-400 font-num">মোবাইল নম্বর সেট করা হয়নি</p>
+              <span class="text-[9px] bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded-full inline-block mt-1 font-bold">2080 QUANTUM EDITION</span>
             </div>
           </div>
-          <button onclick="openShopSettingsModal()" class="w-9 h-9 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-white flex items-center justify-center text-xs transition">
+          <button onclick="openShopSettingsModal()" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 border border-white/10 text-white flex items-center justify-center text-xs transition">
             <i class="fa-solid fa-pen-to-square"></i>
           </button>
         </div>
 
         <!-- Menu Action Options Group -->
-        <div class="bg-white rounded-3xl border border-slate-200/80 divide-y divide-slate-100 overflow-hidden shadow-sm text-xs font-semibold text-slate-700">
+        <div class="cyber-glass rounded-3xl divide-y divide-white/10 overflow-hidden shadow-sm text-xs font-semibold text-slate-300">
           
-          <!-- PWA Install / App Download Option -->
-          <div onclick="handlePWAInstallClick()" class="p-3.5 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition">
+          <!-- PWA Install / App Download -->
+          <div onclick="handlePWAInstallClick()" class="p-3.5 flex items-center justify-between cursor-pointer hover:bg-white/5 transition">
             <div class="flex items-center gap-3">
-              <div class="w-9 h-9 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-sm shadow-sm border border-indigo-100">
+              <div class="w-9 h-9 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center text-sm shadow-glow-cyan border border-cyan-500/30">
                 <i class="fa-solid fa-mobile-screen-button"></i>
               </div>
               <div>
-                <span class="block text-slate-900 font-bold">অ্যাপ ডাউনলোড ও ইনস্টল করুন</span>
-                <span class="text-[10px] text-slate-400 font-normal">মোবাইলে আসল অ্যাপের মতো হোমস্ক্রিনে যোগ করুন</span>
+                <span class="block text-white font-bold">অ্যাপ ডাউনলোড ও ইনস্টল করুন</span>
+                <span class="text-[10px] text-slate-400 font-normal">মোবাইলে সরাসরি হোমস্ক্রিনে অ্যাপ যোগ করুন</span>
               </div>
             </div>
-            <span class="text-[10px] bg-indigo-50 text-indigo-700 border border-indigo-200 px-2.5 py-0.5 rounded-full font-bold">ইনস্টল</span>
+            <span class="text-[10px] bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 px-2.5 py-0.5 rounded-full font-bold">ইনস্টল</span>
           </div>
 
           <!-- Shop Info Edit -->
-          <div onclick="openShopSettingsModal()" class="p-3.5 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition">
+          <div onclick="openShopSettingsModal()" class="p-3.5 flex items-center justify-between cursor-pointer hover:bg-white/5 transition">
             <div class="flex items-center gap-3">
-              <div class="w-9 h-9 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-sm shadow-sm border border-rose-100">
+              <div class="w-9 h-9 rounded-xl bg-rose-500/10 text-rose-400 flex items-center justify-center text-sm shadow-glow-rose border border-rose-500/30">
                 <i class="fa-solid fa-store"></i>
               </div>
               <div>
-                <span class="block text-slate-900 font-bold">দোকানের তথ্য ও প্রোফাইল ছবি</span>
+                <span class="block text-white font-bold">দোকানের তথ্য ও প্রোফাইল ছবি</span>
                 <span class="text-[10px] text-slate-400 font-normal">দোকানের লোগো, নাম ও প্রোপাইটর নম্বর</span>
               </div>
             </div>
-            <i class="fa-solid fa-chevron-right text-slate-300 text-xs"></i>
+            <i class="fa-solid fa-chevron-right text-slate-500 text-xs"></i>
           </div>
 
           <!-- QR Setting -->
-          <div onclick="switchTab('qr')" class="p-3.5 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition">
+          <div onclick="switchTab('qr')" class="p-3.5 flex items-center justify-between cursor-pointer hover:bg-white/5 transition">
             <div class="flex items-center gap-3">
-              <div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-sm shadow-sm border border-emerald-100">
+              <div class="w-9 h-9 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-sm shadow-glow-emerald border border-emerald-500/30">
                 <i class="fa-solid fa-qrcode"></i>
               </div>
               <div>
-                <span class="block text-slate-900 font-bold">বিকাশ / নগদ QR সেটআপ</span>
+                <span class="block text-white font-bold">বিকাশ / নগদ QR সেটআপ</span>
                 <span class="text-[10px] text-slate-400 font-normal">নিজের পেমেন্ট কিউআর কোড যোগ করুন</span>
               </div>
             </div>
-            <i class="fa-solid fa-chevron-right text-slate-300 text-xs"></i>
+            <i class="fa-solid fa-chevron-right text-slate-500 text-xs"></i>
           </div>
 
           <!-- Cloud Backup (Google Sync) -->
-          <div onclick="toggleAuthModal()" class="p-3.5 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition">
+          <div onclick="toggleAuthModal()" class="p-3.5 flex items-center justify-between cursor-pointer hover:bg-white/5 transition">
             <div class="flex items-center gap-3">
-              <div class="w-9 h-9 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center text-sm shadow-sm border border-teal-100">
+              <div class="w-9 h-9 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center text-sm border border-purple-500/30">
                 <i class="fa-solid fa-cloud-arrow-up"></i>
               </div>
               <div>
-                <span class="block text-slate-900 font-bold">Google ক্লাউড অ্যাকাউন্ট সিঙ্ক</span>
+                <span class="block text-white font-bold">Google ক্লাউড ব্যাকআপ ও সিঙ্ক</span>
                 <span class="text-[10px] text-slate-400 font-normal">ফোন পরিবর্তন করলেও হিসাব নিরাপদ থাকবে</span>
               </div>
             </div>
-            <span id="menuSyncBadge" class="text-[10px] bg-slate-100 text-slate-600 border border-slate-200 px-2.5 py-0.5 rounded-full font-bold">লগইন</span>
+            <span id="menuSyncBadge" class="text-[10px] bg-slate-800 text-slate-300 border border-white/10 px-2.5 py-0.5 rounded-full font-bold">লগইন</span>
           </div>
 
           <!-- Export Excel / CSV -->
-          <div onclick="exportCSVReport()" class="p-3.5 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition">
+          <div onclick="exportCSVReport()" class="p-3.5 flex items-center justify-between cursor-pointer hover:bg-white/5 transition">
             <div class="flex items-center gap-3">
-              <div class="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-sm shadow-sm border border-amber-100">
+              <div class="w-9 h-9 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-sm border border-amber-500/30">
                 <i class="fa-solid fa-file-excel"></i>
               </div>
               <div>
-                <span class="block text-slate-900 font-bold">রিপোর্ট ডাউনলোড (Excel / CSV)</span>
+                <span class="block text-white font-bold">রিপোর্ট ডাউনলোড (Excel / CSV)</span>
                 <span class="text-[10px] text-slate-400 font-normal">সকল বাকি ও লেনদেনের অফলাইন ফাইল</span>
               </div>
             </div>
-            <i class="fa-solid fa-download text-slate-400 text-xs"></i>
+            <i class="fa-solid fa-download text-slate-500 text-xs"></i>
           </div>
 
           <!-- Direct Support Email -->
-          <a href="mailto:marufclaud@gmail.com?subject=TallyKhata%20Support" class="p-3.5 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition block">
+          <a href="mailto:marufclaud@gmail.com?subject=TallyKhata%202080%20Support" class="p-3.5 flex items-center justify-between cursor-pointer hover:bg-white/5 transition block">
             <div class="flex items-center gap-3">
-              <div class="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-sm shadow-sm border border-blue-100">
+              <div class="w-9 h-9 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center text-sm border border-blue-500/30">
                 <i class="fa-solid fa-headset"></i>
               </div>
               <div>
-                <span class="block text-slate-900 font-bold">সরাসরি সহায়তা (Support)</span>
+                <span class="block text-white font-bold">সরাসরি সহায়তা (Support)</span>
                 <span class="text-[10px] text-slate-400 font-normal">ইমেইল: marufclaud@gmail.com</span>
               </div>
             </div>
-            <i class="fa-solid fa-arrow-up-right-from-square text-slate-300 text-xs"></i>
+            <i class="fa-solid fa-arrow-up-right-from-square text-slate-500 text-xs"></i>
           </a>
 
         </div>
@@ -498,64 +550,64 @@
     </main>
 
     <!-- ================= FLOATING ACTION BUTTON (+ CUSTOMER) ================= -->
-    <button id="mainFabBtn" onclick="protectedAction(() => openAddPartyModal('customer'), 'কাস্টমার যোগ করতে')" class="fixed bottom-20 right-6 z-30 bg-gradient-to-tr from-rose-600 to-rose-500 hover:from-rose-700 hover:to-rose-600 active:scale-95 text-white w-14 h-14 rounded-2xl flex items-center justify-center text-xl shadow-glow-rose transition">
+    <button id="mainFabBtn" onclick="protectedAction(() => openAddPartyModal('customer'), 'কাস্টমার যোগ করতে')" class="fixed bottom-24 right-6 z-30 bg-gradient-to-tr from-rose-600 via-pink-600 to-rose-500 hover:from-rose-500 hover:to-pink-500 active:scale-95 text-white w-14 h-14 rounded-2xl flex items-center justify-center text-xl shadow-glow-rose transition border border-rose-400/40">
       <i class="fa-solid fa-user-plus"></i>
     </button>
 
-    <!-- ================= 4-ITEM FLOATING DOCK NAV (iOS BLUR STYLE) ================= -->
-    <nav class="fixed bottom-0 max-w-md w-full ios-glass border-t border-slate-200/80 px-4 py-2 flex items-center justify-around z-30 shadow-ios-dock text-[11px] font-bold text-slate-400 sm:rounded-b-[44px]">
-      <button onclick="switchTab('tally')" id="nav-tally" class="flex flex-col items-center text-rose-600 transition">
+    <!-- ================= 4-ITEM FLOATING CYBER DOCK NAV ================= -->
+    <nav class="fixed bottom-3 max-w-sm w-[90%] left-1/2 -translate-x-1/2 cyber-glass rounded-full px-3 py-2 flex items-center justify-around z-30 shadow-dock text-[11px] font-bold text-slate-400 border border-white/10">
+      <button onclick="switchTab('tally')" id="nav-tally" class="flex flex-col items-center text-rose-400 transition py-1 px-3 rounded-full">
         <i class="fa-solid fa-book-bookmark text-base mb-0.5"></i>
         <span>টালি</span>
       </button>
 
-      <button onclick="switchTab('cash')" id="nav-cash" class="flex flex-col items-center hover:text-slate-800 transition">
+      <button onclick="switchTab('cash')" id="nav-cash" class="flex flex-col items-center hover:text-white transition py-1 px-3 rounded-full">
         <i class="fa-solid fa-calculator text-base mb-0.5"></i>
         <span>ক্যাশখাতা</span>
       </button>
 
-      <button onclick="switchTab('qr')" id="nav-qr" class="flex flex-col items-center hover:text-slate-800 transition">
+      <button onclick="switchTab('qr')" id="nav-qr" class="flex flex-col items-center hover:text-white transition py-1 px-3 rounded-full">
         <i class="fa-solid fa-qrcode text-base mb-0.5"></i>
         <span>QR কোড</span>
       </button>
 
-      <button onclick="switchTab('menu')" id="nav-menu" class="flex flex-col items-center hover:text-slate-800 transition">
+      <button onclick="switchTab('menu')" id="nav-menu" class="flex flex-col items-center hover:text-white transition py-1 px-3 rounded-full">
         <i class="fa-solid fa-bars text-base mb-0.5"></i>
         <span>মেনু</span>
       </button>
     </nav>
 
     <!-- ================= MODAL: ADD CUSTOMER ================= -->
-    <div id="addPartyModal" class="fixed inset-0 bg-slate-950/60 z-50 hidden flex flex-col justify-end sm:justify-center p-0 sm:p-4 backdrop-blur-sm">
-      <div class="bg-white rounded-t-[32px] sm:rounded-3xl max-w-md w-full p-5 shadow-2xl max-h-[92vh] overflow-y-auto no-scrollbar ios-sheet">
-        <div class="w-10 h-1 bg-slate-300 rounded-full mx-auto mb-3 sm:hidden"></div>
-        <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
-          <h3 id="addPartyModalTitle" class="font-extrabold text-base text-slate-900">নতুন কাস্টমার যোগ করুন</h3>
-          <button onclick="closeAddPartyModal()" class="text-slate-400 hover:text-slate-700 p-1">
+    <div id="addPartyModal" class="fixed inset-0 bg-black/80 z-50 hidden flex flex-col justify-end sm:justify-center p-0 sm:p-4 backdrop-blur-md">
+      <div class="cyber-glass rounded-t-[36px] sm:rounded-3xl max-w-md w-full p-5 shadow-2xl max-h-[92vh] overflow-y-auto no-scrollbar border-t sm:border border-white/15">
+        <div class="w-10 h-1 bg-white/20 rounded-full mx-auto mb-3 sm:hidden"></div>
+        <div class="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
+          <h3 id="addPartyModalTitle" class="font-black text-base text-white">নতুন কাস্টমার যোগ করুন</h3>
+          <button onclick="closeAddPartyModal()" class="text-slate-400 hover:text-white p-1">
             <i class="fa-solid fa-xmark text-lg"></i>
           </button>
         </div>
 
-        <div class="bg-slate-100 p-1 rounded-2xl grid grid-cols-2 text-xs font-bold text-slate-600 mb-4">
-          <label class="flex items-center justify-center gap-1.5 py-2 rounded-xl cursor-pointer has-[:checked]:bg-white has-[:checked]:text-slate-900 has-[:checked]:shadow-sm transition">
+        <div class="bg-slate-900/80 p-1 rounded-2xl grid grid-cols-2 text-xs font-bold text-slate-400 mb-4 border border-white/10">
+          <label class="flex items-center justify-center gap-1.5 py-2 rounded-xl cursor-pointer has-[:checked]:bg-rose-600 has-[:checked]:text-white has-[:checked]:shadow-glow-rose transition">
             <input type="radio" name="modalPartyType" value="customer" checked class="hidden" onchange="updatePartyModalType()" />
             <span>কাস্টমার (বাকি দেব)</span>
           </label>
-          <label class="flex items-center justify-center gap-1.5 py-2 rounded-xl cursor-pointer has-[:checked]:bg-white has-[:checked]:text-slate-900 has-[:checked]:shadow-sm transition">
+          <label class="flex items-center justify-center gap-1.5 py-2 rounded-xl cursor-pointer has-[:checked]:bg-rose-600 has-[:checked]:text-white has-[:checked]:shadow-glow-rose transition">
             <input type="radio" name="modalPartyType" value="supplier" class="hidden" onchange="updatePartyModalType()" />
             <span>মহাজন (দেনা পরিশোধ)</span>
           </label>
         </div>
 
         <form onsubmit="handleSaveParty(event)" class="space-y-3.5">
-          <div class="flex items-center gap-3 bg-slate-50 p-2.5 rounded-2xl border border-slate-200/80">
-            <div class="relative w-12 h-12 rounded-xl bg-slate-200 text-slate-400 flex items-center justify-center overflow-hidden border border-slate-300 shrink-0">
+          <div class="flex items-center gap-3 bg-slate-900/80 p-3 rounded-2xl border border-white/10">
+            <div class="relative w-12 h-12 rounded-xl bg-slate-800 text-slate-400 flex items-center justify-center overflow-hidden border border-white/15 shrink-0">
               <img id="newPartyPhotoPreview" src="" class="w-full h-full object-cover hidden" alt="Customer Photo" />
-              <i id="newPartyPhotoPlaceholder" class="fa-solid fa-camera text-base"></i>
+              <i id="newPartyPhotoPlaceholder" class="fa-solid fa-camera text-base text-rose-400"></i>
             </div>
             <div class="flex-1">
-              <label class="text-xs text-slate-700 font-bold block mb-0.5">কাস্টমারের ছবি (ঐচ্ছিক)</label>
-              <label class="inline-flex items-center gap-1 text-[11px] text-rose-600 hover:text-rose-700 font-bold cursor-pointer">
+              <label class="text-xs text-white font-bold block mb-0.5">কাস্টমারের ছবি (ঐচ্ছিক)</label>
+              <label class="inline-flex items-center gap-1 text-[11px] text-cyan-400 hover:text-cyan-300 font-bold cursor-pointer">
                 <i class="fa-solid fa-upload text-[10px]"></i>
                 <span>ছবি নির্বাচন করুন</span>
                 <input type="file" accept="image/*" onchange="handleNewPartyPhoto(event)" class="hidden" />
@@ -564,30 +616,30 @@
           </div>
 
           <div>
-            <label class="text-xs text-slate-600 font-bold block mb-1">নাম *</label>
+            <label class="text-xs text-slate-400 font-bold block mb-1">নাম *</label>
             <div class="relative">
-              <i class="fa-solid fa-user absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
-              <input id="inputPartyName" required type="text" placeholder="কাস্টমারের নাম লিখুন..." class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-3.5 py-2.5 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-rose-500 font-semibold" />
+              <i class="fa-solid fa-user absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
+              <input id="inputPartyName" required type="text" placeholder="কাস্টমারের নাম লিখুন..." class="w-full bg-slate-900 border border-white/10 rounded-xl pl-9 pr-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-rose-500 font-semibold" />
             </div>
           </div>
 
           <div>
-            <label class="text-xs text-slate-600 font-bold block mb-1">মোবাইল নম্বর</label>
+            <label class="text-xs text-slate-400 font-bold block mb-1">মোবাইল নম্বর</label>
             <div class="relative">
-              <i class="fa-solid fa-phone absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
-              <input id="inputPartyPhone" type="tel" placeholder="০১৭XXXXXXXX" class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-3.5 py-2.5 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-rose-500 font-semibold font-num" />
+              <i class="fa-solid fa-phone absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
+              <input id="inputPartyPhone" type="tel" placeholder="০১৭XXXXXXXX" class="w-full bg-slate-900 border border-white/10 rounded-xl pl-9 pr-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-rose-500 font-semibold font-num" />
             </div>
           </div>
 
           <div>
-            <label class="text-xs text-slate-600 font-bold block mb-1">পূর্বের কোনো বাকি থাকলে (৳)</label>
+            <label class="text-xs text-slate-400 font-bold block mb-1">পূর্বের কোনো বাকি থাকলে (৳)</label>
             <div class="relative">
-              <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-xs font-num">৳</span>
-              <input id="inputPartyDue" type="number" step="any" placeholder="০.০০" class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-8 pr-3.5 py-2.5 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-rose-500 font-bold font-num" />
+              <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 font-bold text-xs font-num">৳</span>
+              <input id="inputPartyDue" type="number" step="any" placeholder="০.০০" class="w-full bg-slate-900 border border-white/10 rounded-xl pl-8 pr-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-rose-500 font-bold font-num" />
             </div>
           </div>
 
-          <button type="submit" class="w-full bg-gradient-to-r from-rose-600 to-rose-500 hover:from-rose-700 hover:to-rose-600 text-white font-bold py-3 rounded-2xl text-sm transition mt-3 shadow-glow-rose active:scale-98">
+          <button type="submit" class="w-full bg-gradient-to-r from-rose-600 via-pink-600 to-rose-600 hover:from-rose-500 hover:to-pink-500 text-white font-extrabold py-3 rounded-2xl text-sm transition mt-3 shadow-glow-rose active:scale-98 border border-rose-400/40">
             নিশ্চিত করুন
           </button>
         </form>
@@ -596,20 +648,20 @@
     </div>
 
     <!-- ================= MODAL: CUSTOMER LEDGER DETAIL ================= -->
-    <div id="customerDetailModal" class="fixed inset-0 bg-white z-40 hidden flex flex-col">
-      <div class="bg-slate-900 text-white px-4 py-3.5 flex items-center justify-between shadow-md">
+    <div id="customerDetailModal" class="fixed inset-0 bg-cyber-black z-40 hidden flex flex-col">
+      <div class="cyber-glass text-white px-4 py-3.5 flex items-center justify-between border-b border-white/10">
         <div class="flex items-center gap-3">
-          <button onclick="closeCustomerDetailModal()" class="w-8 h-8 rounded-xl bg-slate-800 text-slate-300 hover:text-white flex items-center justify-center">
+          <button onclick="closeCustomerDetailModal()" class="w-8 h-8 rounded-xl bg-slate-800 text-slate-300 hover:text-white flex items-center justify-center border border-white/10">
             <i class="fa-solid fa-arrow-left text-sm"></i>
           </button>
           
           <div class="flex items-center gap-2.5">
-            <div class="w-10 h-10 rounded-xl bg-slate-800 text-rose-400 font-bold flex items-center justify-center text-xs overflow-hidden border border-slate-700">
+            <div class="w-10 h-10 rounded-xl bg-slate-800 text-rose-400 font-bold flex items-center justify-center text-xs overflow-hidden border border-rose-500/30 shadow-glow-rose">
               <img id="detailCustPhotoImg" src="" class="w-full h-full object-cover hidden" alt="Party" />
               <span id="detailCustPhotoInitials">CU</span>
             </div>
             <div>
-              <h3 id="detailCustName" class="font-extrabold text-base leading-tight">কাস্টমার</h3>
+              <h3 id="detailCustName" class="font-black text-base leading-tight text-white">কাস্টমার</h3>
               <p id="detailCustPhone" class="text-xs text-slate-400 font-num">মোবাইল নেই</p>
             </div>
           </div>
@@ -619,25 +671,25 @@
           <span class="text-[10px] text-slate-400 uppercase font-bold tracking-wider block">বর্তমান বাকি</span>
           <div class="flex items-baseline justify-end gap-1">
             <span class="text-xs font-bold text-rose-400 font-num">৳</span>
-            <span id="detailCustBalance" class="text-lg font-black text-rose-400 font-num">০</span>
+            <span id="detailCustBalance" class="text-xl font-black neon-text-rose font-num">০</span>
           </div>
         </div>
       </div>
 
-      <div class="bg-slate-50 border-b border-slate-200 px-4 py-2 flex items-center justify-between text-xs">
-        <span class="text-slate-500 font-bold">যোগাযোগ ও রিমাইন্ডার:</span>
+      <div class="cyber-glass border-b border-white/10 px-4 py-2 flex items-center justify-between text-xs">
+        <span class="text-slate-400 font-bold">যোগাযোগ ও রিমাইন্ডার:</span>
         <div class="flex items-center gap-2">
-          <a id="detailWaLink" href="#" target="_blank" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded-xl font-bold flex items-center gap-1.5 shadow-sm active:scale-95 transition">
+          <a id="detailWaLink" href="#" target="_blank" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded-xl font-bold flex items-center gap-1.5 shadow-glow-emerald active:scale-95 transition border border-emerald-400/40">
             <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp তাগাদা
           </a>
-          <a id="detailCallLink" href="#" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-3 py-1.5 rounded-xl font-bold flex items-center gap-1 active:scale-95 transition">
+          <a id="detailCallLink" href="#" class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1.5 rounded-xl font-bold flex items-center gap-1 active:scale-95 transition border border-white/10">
             <i class="fa-solid fa-phone text-xs"></i> কল
           </a>
         </div>
       </div>
 
-      <!-- Chronological History Timeline -->
-      <div class="flex-1 overflow-y-auto p-4 space-y-2.5 no-scrollbar bg-slate-100/60">
+      <!-- Chronological History Timeline in Cyber Dark -->
+      <div class="flex-1 overflow-y-auto p-4 space-y-2.5 no-scrollbar bg-slate-950/60">
         <div class="flex items-center justify-between text-xs text-slate-400 font-bold mb-1">
           <span>বিস্তারিত বাকির বিবরণ ও সময়</span>
           <span>পরিমাণ ও জের</span>
@@ -646,12 +698,12 @@
       </div>
 
       <!-- Bottom Bar: বাকি দিলাম (-) / টাকা পেলাম (+) -->
-      <div class="bg-white border-t border-slate-200 p-3 grid grid-cols-2 gap-3 shadow-ios-dock">
-        <button onclick="protectedAction(() => openTxEntryModal('due'), 'বাকি এন্ট্রি করতে')" class="bg-rose-600 hover:bg-rose-700 active:scale-98 text-white font-bold py-3 px-4 rounded-2xl text-xs flex items-center justify-center gap-2 shadow-glow-rose">
+      <div class="cyber-glass border-t border-white/10 p-3 grid grid-cols-2 gap-3">
+        <button onclick="protectedAction(() => openTxEntryModal('due'), 'বাকি এন্ট্রি করতে')" class="bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-500 hover:to-pink-500 active:scale-98 text-white font-extrabold py-3 px-4 rounded-2xl text-xs flex items-center justify-center gap-2 shadow-glow-rose border border-rose-400/30">
           <i class="fa-solid fa-arrow-trend-up"></i>
           <span>বাকি দিলাম (-)</span>
         </button>
-        <button onclick="protectedAction(() => openTxEntryModal('cash'), 'টাকা জমা এন্ট্রি করতে')" class="bg-emerald-600 hover:bg-emerald-700 active:scale-98 text-white font-bold py-3 px-4 rounded-2xl text-xs flex items-center justify-center gap-2 shadow-glow-emerald">
+        <button onclick="protectedAction(() => openTxEntryModal('cash'), 'টাকা জমা এন্ট্রি করতে')" class="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 active:scale-98 text-white font-extrabold py-3 px-4 rounded-2xl text-xs flex items-center justify-center gap-2 shadow-glow-emerald border border-emerald-400/30">
           <i class="fa-solid fa-arrow-trend-down"></i>
           <span>টাকা পেলাম (+)</span>
         </button>
@@ -659,35 +711,35 @@
     </div>
 
     <!-- ================= MODAL: ADD TRANSACTION ================= -->
-    <div id="txEntryModal" class="fixed inset-0 bg-slate-950/60 z-50 hidden flex flex-col justify-end sm:justify-center p-0 sm:p-4 backdrop-blur-sm">
-      <div class="bg-white rounded-t-[32px] sm:rounded-3xl max-w-md w-full p-5 shadow-2xl ios-sheet">
-        <div class="w-10 h-1 bg-slate-300 rounded-full mx-auto mb-3 sm:hidden"></div>
-        <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-3">
-          <h3 id="txEntryModalTitle" class="font-bold text-base text-slate-800">বাকি এন্ট্রি</h3>
-          <button onclick="closeTxEntryModal()" class="text-slate-400 hover:text-slate-700 p-1">
+    <div id="txEntryModal" class="fixed inset-0 bg-black/80 z-50 hidden flex flex-col justify-end sm:justify-center p-0 sm:p-4 backdrop-blur-md">
+      <div class="cyber-glass rounded-t-[36px] sm:rounded-3xl max-w-md w-full p-5 shadow-2xl border-t sm:border border-white/15">
+        <div class="w-10 h-1 bg-white/20 rounded-full mx-auto mb-3 sm:hidden"></div>
+        <div class="flex items-center justify-between border-b border-white/10 pb-3 mb-3">
+          <h3 id="txEntryModalTitle" class="font-extrabold text-base text-white">বাকি এন্ট্রি</h3>
+          <button onclick="closeTxEntryModal()" class="text-slate-400 hover:text-white p-1">
             <i class="fa-solid fa-xmark text-lg"></i>
           </button>
         </div>
 
-        <form onsubmit="handleSaveTransaction(event)" class="space-y-3">
+        <form onsubmit="handleSaveTransaction(event)" class="space-y-3.5">
           <div>
-            <label class="text-xs text-slate-500 font-bold block mb-1">টাকার পরিমাণ (৳) *</label>
-            <input id="txAmountInput" required type="number" step="any" min="1" placeholder="০.০০" class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-2xl font-black text-slate-900 text-center focus:bg-white focus:outline-none focus:border-rose-500 font-num" />
+            <label class="text-xs text-slate-400 font-bold block mb-1">টাকার পরিমাণ (৳) *</label>
+            <input id="txAmountInput" required type="number" step="any" min="1" placeholder="০.০০" class="w-full bg-slate-900 border border-white/10 rounded-2xl px-4 py-3 text-2xl font-black text-white text-center focus:outline-none focus:border-rose-500 font-num" />
             
             <div class="grid grid-cols-4 gap-1.5 mt-2">
-              <button type="button" onclick="setTxAmount(100)" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-1.5 rounded-lg font-num">+১০০</button>
-              <button type="button" onclick="setTxAmount(500)" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-1.5 rounded-lg font-num">+৫০০</button>
-              <button type="button" onclick="setTxAmount(1000)" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-1.5 rounded-lg font-num">+১০০০</button>
-              <button type="button" onclick="setTxAmount(5000)" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-1.5 rounded-lg font-num">+৫০০০</button>
+              <button type="button" onclick="setTxAmount(100)" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold py-2 rounded-xl font-num border border-white/10">+১০০</button>
+              <button type="button" onclick="setTxAmount(500)" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold py-2 rounded-xl font-num border border-white/10">+৫০০</button>
+              <button type="button" onclick="setTxAmount(1000)" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold py-2 rounded-xl font-num border border-white/10">+১০০০</button>
+              <button type="button" onclick="setTxAmount(5000)" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold py-2 rounded-xl font-num border border-white/10">+৫০০০</button>
             </div>
           </div>
 
           <div>
-            <label class="text-xs text-slate-500 font-bold block mb-1">কি বাকি নিয়েছে (পণ্যের নাম বা বিবরণ) *</label>
-            <input id="txNoteInput" required type="text" placeholder="যেমন: চাল ২ বস্তা, ৫ লিটার তেল..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:bg-white focus:outline-none focus:border-rose-500 font-medium" />
+            <label class="text-xs text-slate-400 font-bold block mb-1">কি বাকি নিয়েছে (পণ্যের নাম বা বিবরণ) *</label>
+            <input id="txNoteInput" required type="text" placeholder="যেমন: চাল ২ বস্তা, ৫ লিটার তেল..." class="w-full bg-slate-900 border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-rose-500 font-medium" />
           </div>
 
-          <button type="submit" id="txSubmitBtn" class="w-full text-white font-bold py-3 rounded-2xl text-sm transition mt-3 shadow-md active:scale-98">
+          <button type="submit" id="txSubmitBtn" class="w-full text-white font-extrabold py-3.5 rounded-2xl text-sm transition mt-3 shadow-glow-rose active:scale-98 border border-white/20">
             সংরক্ষণ করুন
           </button>
         </form>
@@ -695,35 +747,35 @@
     </div>
 
     <!-- ================= MODAL: CASH ENTRY ================= -->
-    <div id="cashEntryModal" class="fixed inset-0 bg-slate-950/60 z-50 hidden flex flex-col justify-end sm:justify-center p-0 sm:p-4 backdrop-blur-sm">
-      <div class="bg-white rounded-t-[32px] sm:rounded-3xl max-w-md w-full p-5 shadow-2xl ios-sheet">
-        <div class="w-10 h-1 bg-slate-300 rounded-full mx-auto mb-3 sm:hidden"></div>
-        <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-3">
-          <h3 id="cashEntryModalTitle" class="font-bold text-base text-slate-800">ক্যাশ বেচা</h3>
-          <button onclick="closeCashEntryModal()" class="text-slate-400 hover:text-slate-700 p-1">
+    <div id="cashEntryModal" class="fixed inset-0 bg-black/80 z-50 hidden flex flex-col justify-end sm:justify-center p-0 sm:p-4 backdrop-blur-md">
+      <div class="cyber-glass rounded-t-[36px] sm:rounded-3xl max-w-md w-full p-5 shadow-2xl border-t sm:border border-white/15">
+        <div class="w-10 h-1 bg-white/20 rounded-full mx-auto mb-3 sm:hidden"></div>
+        <div class="flex items-center justify-between border-b border-white/10 pb-3 mb-3">
+          <h3 id="cashEntryModalTitle" class="font-extrabold text-base text-white">ক্যাশ বেচা</h3>
+          <button onclick="closeCashEntryModal()" class="text-slate-400 hover:text-white p-1">
             <i class="fa-solid fa-xmark text-lg"></i>
           </button>
         </div>
 
-        <form onsubmit="handleSaveCashEntry(event)" class="space-y-3">
+        <form onsubmit="handleSaveCashEntry(event)" class="space-y-3.5">
           <div>
-            <label class="text-xs text-slate-500 font-bold block mb-1">টাকার পরিমাণ (৳) *</label>
-            <input id="cashAmountInput" required type="number" step="any" min="1" placeholder="০.০০" class="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-3 text-2xl font-black text-slate-900 text-center focus:bg-white focus:outline-none focus:border-emerald-500 font-num" />
+            <label class="text-xs text-slate-400 font-bold block mb-1">টাকার পরিমাণ (৳) *</label>
+            <input id="cashAmountInput" required type="number" step="any" min="1" placeholder="০.০০" class="w-full bg-slate-900 border border-white/10 rounded-2xl px-4 py-3 text-2xl font-black text-white text-center focus:outline-none focus:border-emerald-500 font-num" />
             
             <div class="grid grid-cols-4 gap-1.5 mt-2">
-              <button type="button" onclick="setCashAmount(50)" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-1.5 rounded-lg font-num">+৫০</button>
-              <button type="button" onclick="setCashAmount(100)" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-1.5 rounded-lg font-num">+১০০</button>
-              <button type="button" onclick="setCashAmount(500)" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-1.5 rounded-lg font-num">+৫০০</button>
-              <button type="button" onclick="setCashAmount(1000)" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-1.5 rounded-lg font-num">+১০০০</button>
+              <button type="button" onclick="setCashAmount(50)" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold py-2 rounded-xl font-num border border-white/10">+৫০</button>
+              <button type="button" onclick="setCashAmount(100)" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold py-2 rounded-xl font-num border border-white/10">+১০০</button>
+              <button type="button" onclick="setCashAmount(500)" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold py-2 rounded-xl font-num border border-white/10">+৫০০</button>
+              <button type="button" onclick="setCashAmount(1000)" class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold py-2 rounded-xl font-num border border-white/10">+১০০০</button>
             </div>
           </div>
 
           <div>
-            <label class="text-xs text-slate-500 font-bold block mb-1">বিবরণ / কারণ</label>
-            <input id="cashNoteInput" type="text" placeholder="যেমন: খুচরা বিক্রি, নাস্তা খরচ ইত্যাদি..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:bg-white focus:outline-none focus:border-emerald-500 font-medium" />
+            <label class="text-xs text-slate-400 font-bold block mb-1">বিবরণ / কারণ</label>
+            <input id="cashNoteInput" type="text" placeholder="যেমন: খুচরা বিক্রি, নাস্তা খরচ ইত্যাদি..." class="w-full bg-slate-900 border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500 font-medium" />
           </div>
 
-          <button type="submit" id="cashSubmitBtn" class="w-full bg-slate-900 text-white font-bold py-3 rounded-2xl text-sm transition mt-3 shadow-md active:scale-98">
+          <button type="submit" id="cashSubmitBtn" class="w-full bg-slate-800 hover:bg-slate-700 text-white font-extrabold py-3.5 rounded-2xl text-sm transition mt-3 shadow-md active:scale-98 border border-white/20">
             ক্যাশে যুক্ত করুন
           </button>
         </form>
@@ -731,24 +783,24 @@
     </div>
 
     <!-- ================= MODAL: SHOP SETTINGS ================= -->
-    <div id="shopSettingsModal" class="fixed inset-0 bg-slate-950/60 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
-      <div class="bg-white rounded-3xl max-w-xs w-full p-5 shadow-2xl">
-        <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-3">
-          <h3 class="font-bold text-sm text-slate-800">দোকানের তথ্য ও প্রোফাইল ছবি</h3>
-          <button onclick="closeShopSettingsModal()" class="text-slate-400 hover:text-slate-700 p-1">
+    <div id="shopSettingsModal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4 backdrop-blur-md">
+      <div class="cyber-glass rounded-3xl max-w-xs w-full p-5 shadow-2xl border border-white/15">
+        <div class="flex items-center justify-between border-b border-white/10 pb-3 mb-3">
+          <h3 class="font-extrabold text-sm text-white">দোকানের তথ্য ও প্রোফাইল ছবি</h3>
+          <button onclick="closeShopSettingsModal()" class="text-slate-400 hover:text-white p-1">
             <i class="fa-solid fa-xmark text-base"></i>
           </button>
         </div>
 
-        <form onsubmit="handleSaveShopSettings(event)" class="space-y-3">
-          <div class="flex items-center gap-3 bg-slate-50 p-2.5 rounded-2xl border border-slate-200">
-            <div class="w-12 h-12 rounded-xl bg-slate-200 text-slate-400 flex items-center justify-center overflow-hidden border border-slate-300 shrink-0">
+        <form onsubmit="handleSaveShopSettings(event)" class="space-y-3.5">
+          <div class="flex items-center gap-3 bg-slate-900 p-3 rounded-2xl border border-white/10">
+            <div class="w-12 h-12 rounded-xl bg-slate-800 text-slate-400 flex items-center justify-center overflow-hidden border border-white/15 shrink-0 shadow-glow-rose">
               <img id="editShopLogoPreview" src="" class="w-full h-full object-cover hidden" alt="Shop Logo" />
-              <i id="editShopLogoPlaceholder" class="fa-solid fa-store text-lg"></i>
+              <i id="editShopLogoPlaceholder" class="fa-solid fa-store text-lg text-rose-400"></i>
             </div>
             <div>
-              <span class="text-xs text-slate-800 font-bold block">দোকানের লোগো / ছবি</span>
-              <label class="text-[11px] text-rose-600 hover:text-rose-700 font-bold cursor-pointer inline-flex items-center gap-1 mt-0.5">
+              <span class="text-xs text-white font-bold block">দোকানের লোগো / ছবি</span>
+              <label class="text-[11px] text-cyan-400 hover:text-cyan-300 font-bold cursor-pointer inline-flex items-center gap-1 mt-0.5">
                 <i class="fa-solid fa-camera text-[10px]"></i> ছবি নির্বাচন
                 <input type="file" accept="image/*" onchange="handleShopLogoUpload(event)" class="hidden" />
               </label>
@@ -756,16 +808,16 @@
           </div>
 
           <div>
-            <label class="text-xs text-slate-600 font-bold block mb-1">দোকানের নাম *</label>
-            <input id="editShopNameInput" required type="text" placeholder="যেমন: মারুফ এন্টারপ্রাইজ" class="w-full border border-slate-300 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-rose-500 font-bold" />
+            <label class="text-xs text-slate-400 font-bold block mb-1">দোকানের নাম *</label>
+            <input id="editShopNameInput" required type="text" placeholder="যেমন: মারুফ এন্টারপ্রাইজ" class="w-full bg-slate-900 border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-rose-500 font-bold" />
           </div>
 
           <div>
-            <label class="text-xs text-slate-600 font-bold block mb-1">প্রোপাইটর মোবাইল নম্বর</label>
-            <input id="editShopPhoneInput" type="tel" placeholder="০১৭XXXXXXXX" class="w-full border border-slate-300 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-rose-500 font-semibold font-num" />
+            <label class="text-xs text-slate-400 font-bold block mb-1">প্রোপাইটর মোবাইল নম্বর</label>
+            <input id="editShopPhoneInput" type="tel" placeholder="০১৭XXXXXXXX" class="w-full bg-slate-900 border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-rose-500 font-semibold font-num" />
           </div>
 
-          <button type="submit" class="w-full bg-slate-900 text-white font-bold py-2.5 rounded-xl text-xs transition shadow-md mt-2 active:scale-98">
+          <button type="submit" class="w-full bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-500 hover:to-pink-500 text-white font-extrabold py-2.5 rounded-xl text-xs transition shadow-glow-rose mt-2 active:scale-98 border border-rose-400/40">
             সংরক্ষণ করুন
           </button>
         </form>
@@ -773,65 +825,63 @@
     </div>
 
     <!-- ================= MODAL: PWA APP DOWNLOAD & INSTALL GUIDE ================= -->
-    <div id="installGuideModal" class="fixed inset-0 bg-slate-950/60 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
-      <div class="bg-white rounded-3xl p-6 text-center max-w-xs w-full shadow-2xl relative">
-        <button onclick="toggleInstallGuideModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 p-1">
+    <div id="installGuideModal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4 backdrop-blur-md">
+      <div class="cyber-glass rounded-3xl p-6 text-center max-w-xs w-full shadow-2xl relative border border-white/15">
+        <button onclick="toggleInstallGuideModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-1">
           <i class="fa-solid fa-xmark text-base"></i>
         </button>
 
-        <div class="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-3 border border-indigo-100 shadow-sm">
+        <div class="w-14 h-14 bg-cyan-500/10 text-cyan-400 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-3 border border-cyan-500/30 shadow-glow-cyan">
           <i class="fa-solid fa-mobile-screen-button"></i>
         </div>
 
-        <h3 class="font-extrabold text-base text-slate-900 mb-1">অ্যাপ ইনস্টল করুন</h3>
-        <p class="text-xs text-slate-500 mb-4 leading-relaxed">
+        <h3 class="font-black text-base text-white mb-1">অ্যাপ ইনস্টল করুন</h3>
+        <p class="text-xs text-slate-400 mb-4 leading-relaxed">
           আপনার ফোনে কোনো প্লে-স্টোর ছাড়াই সরাসরি অ্যাপের মতো ব্যবহার করতে পারবেন।
         </p>
 
-        <!-- Dynamic Action Button or Guide -->
         <div id="pwaDirectInstallBox" class="mb-4">
-          <button onclick="triggerPWAInstall()" class="w-full bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-bold py-2.5 px-4 rounded-xl text-xs flex items-center justify-center gap-2 shadow-md transition">
+          <button onclick="triggerPWAInstall()" class="w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 active:scale-95 text-white font-extrabold py-3 px-4 rounded-xl text-xs flex items-center justify-center gap-2 shadow-glow-cyan transition border border-cyan-400/40">
             <i class="fa-solid fa-download"></i>
             <span>হোমস্ক্রিনে ইনস্টল করুন</span>
           </button>
         </div>
 
-        <!-- Manual Instructions for iOS & Android -->
-        <div class="text-left bg-slate-50 p-3 rounded-2xl border border-slate-200 text-[11px] text-slate-600 space-y-2">
+        <div class="text-left bg-slate-900/90 p-3.5 rounded-2xl border border-white/10 text-[11px] text-slate-300 space-y-2">
           <div class="flex items-start gap-2">
-            <span class="font-bold text-slate-900">📱 Android:</span>
-            <span>Chrome ব্রাউজারের ৩-ডট (⋮) মেনুতে ক্লিক করে <b>"Install app"</b> বা <b>"Add to Home screen"</b> দিন।</span>
+            <span class="font-extrabold text-cyan-400">📱 Android:</span>
+            <span>Chrome ব্রাউজারের ৩-ডট (⋮) মেনুতে ক্লিক করে <b>"Install app"</b> বা <b>"Add to Home screen"</b> চাপুন।</span>
           </div>
-          <div class="flex items-start gap-2 pt-1 border-t border-slate-200/60">
-            <span class="font-bold text-slate-900">🍏 iPhone/iOS:</span>
-            <span>Safari ব্রাউজারে নিচের Share (শেয়ার) আইকনে ক্লিক করে <b>"Add to Home Screen"</b> চাপুন।</span>
+          <div class="flex items-start gap-2 pt-1 border-t border-white/10">
+            <span class="font-extrabold text-rose-400">🍏 iPhone/iOS:</span>
+            <span>Safari ব্রাউজারে নিচের Share আইকনে ক্লিক করে <b>"Add to Home Screen"</b> চাপুন।</span>
           </div>
         </div>
 
-        <button onclick="toggleInstallGuideModal()" class="text-xs text-slate-400 font-bold mt-4 block mx-auto hover:text-slate-600">
+        <button onclick="toggleInstallGuideModal()" class="text-xs text-slate-500 font-bold mt-4 block mx-auto hover:text-slate-300">
           বুঝেছি
         </button>
       </div>
     </div>
 
     <!-- ================= MODAL: AUTH / GOOGLE LOGIN ================= -->
-    <div id="authModal" class="fixed inset-0 bg-slate-950/60 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
-      <div class="bg-white rounded-3xl p-6 text-center max-w-xs w-full shadow-2xl relative">
-        <button onclick="toggleAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 p-1">
+    <div id="authModal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4 backdrop-blur-md">
+      <div class="cyber-glass rounded-3xl p-6 text-center max-w-xs w-full shadow-2xl relative border border-white/15">
+        <button onclick="toggleAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-1">
           <i class="fa-solid fa-xmark text-base"></i>
         </button>
 
-        <div class="w-14 h-14 bg-rose-50 text-rose-600 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-3 border border-rose-100 shadow-sm">
+        <div class="w-14 h-14 bg-rose-500/10 text-rose-400 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-3 border border-rose-500/30 shadow-glow-rose">
           <i class="fa-solid fa-shield-halved"></i>
         </div>
 
-        <h3 id="authModalTitle" class="font-extrabold text-base text-slate-900 mb-1">Google একাউন্টে লগইন</h3>
-        <p id="authModalDesc" class="text-xs text-slate-500 mb-5 leading-relaxed">
+        <h3 id="authModalTitle" class="font-black text-base text-white mb-1">Google একাউন্টে লগইন</h3>
+        <p id="authModalDesc" class="text-xs text-slate-400 mb-5 leading-relaxed">
           হিসাব ও বাকি এন্ট্রি করতে এবং ক্লাউডে লাইফটাইম সুরক্ষিত রাখতে Google দিয়ে সাইন-ইন করুন।
         </p>
 
         <div id="authContentArea">
-          <button onclick="handleGoogleSignIn()" class="w-full bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 font-bold py-2.5 px-4 rounded-xl text-xs flex items-center justify-center gap-2 shadow-sm active:scale-98 transition">
+          <button onclick="handleGoogleSignIn()" class="w-full bg-white hover:bg-slate-100 text-slate-900 font-extrabold py-3 px-4 rounded-xl text-xs flex items-center justify-center gap-2.5 shadow-xl active:scale-98 transition">
             <svg class="w-4 h-4" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
               <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -842,14 +892,14 @@
           </button>
         </div>
 
-        <button onclick="toggleAuthModal()" class="text-xs text-slate-400 font-bold mt-4 block mx-auto hover:text-slate-600">
+        <button onclick="toggleAuthModal()" class="text-xs text-slate-500 font-bold mt-4 block mx-auto hover:text-slate-300">
           বন্ধ করুন
         </button>
       </div>
     </div>
 
-    <!-- TOAST NOTIFICATION -->
-    <div id="toastNotification" class="fixed top-5 left-1/2 -translate-x-1/2 bg-slate-900/90 text-white text-xs font-bold px-4 py-2 rounded-full shadow-2xl opacity-0 pointer-events-none transition duration-300 z-50 backdrop-blur-md"></div>
+    <!-- TOAST NOTIFICATION WITH NEON BACKDROP -->
+    <div id="toastNotification" class="fixed top-5 left-1/2 -translate-x-1/2 bg-slate-900/90 text-white text-xs font-bold px-5 py-2.5 rounded-full shadow-[0_0_30px_rgba(244,63,94,0.4)] opacity-0 pointer-events-none transition duration-300 z-50 backdrop-blur-xl border border-white/20"></div>
 
   </div>
 
@@ -908,7 +958,6 @@
     let tempShopLogo = '';
     let deferredPWAEvent = null;
 
-    // PWA Install Event Listener
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPWAEvent = e;
@@ -991,7 +1040,7 @@
 
       document.getElementById('statTotalDue').textContent = totalDue.toLocaleString('bn-BD');
       document.getElementById('statTotalPayable').textContent = totalPayable.toLocaleString('bn-BD');
-      document.getElementById('partyCountSummary').textContent = `${dueCustCount} জন কাস্টমার বাকি`;
+      document.getElementById('partyCountSummary').textContent = `${dueCustCount} কাস্টমার বাকি`;
 
       const custCount = parties.filter(p => p.type === 'customer').length;
       const suppCount = parties.filter(p => p.type === 'supplier').length;
@@ -1006,35 +1055,35 @@
 
       filtered.forEach(p => {
         const card = document.createElement('div');
-        card.className = 'bg-white hover:bg-slate-50/80 border border-slate-200/80 rounded-2xl p-3 flex items-center justify-between cursor-pointer active:scale-[0.99] transition shadow-sm';
+        card.className = 'cyber-glass hover:cyber-glass-active rounded-2xl p-3.5 flex items-center justify-between cursor-pointer active:scale-[0.99] transition';
         card.onclick = () => openCustomerDetailModal(p);
 
         const initials = p.name ? p.name.slice(0, 2).toUpperCase() : 'CU';
         const hasDue = p.balance > 0;
 
-        let avatarContent = `<div class="w-11 h-11 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center font-bold text-xs border border-slate-200">${initials}</div>`;
+        let avatarContent = `<div class="w-11 h-11 rounded-xl bg-slate-800 text-rose-400 flex items-center justify-center font-bold text-xs border border-white/10 shadow-glow-rose">${initials}</div>`;
         if (p.photo) {
-          avatarContent = `<div class="w-11 h-11 rounded-xl overflow-hidden border border-slate-200 shadow-sm"><img src="${p.photo}" class="w-full h-full object-cover" alt="${p.name}" /></div>`;
+          avatarContent = `<div class="w-11 h-11 rounded-xl overflow-hidden border border-white/20 shadow-md"><img src="${p.photo}" class="w-full h-full object-cover" alt="${p.name}" /></div>`;
         }
 
         card.innerHTML = `
           <div class="flex items-center gap-3">
             ${avatarContent}
             <div>
-              <h4 class="font-bold text-xs text-slate-900">${p.name}</h4>
+              <h4 class="font-extrabold text-xs text-white">${p.name}</h4>
               <p class="text-[10px] text-slate-400 font-num">${p.phone || 'নম্বর নেই'}</p>
             </div>
           </div>
           <div class="text-right flex items-center gap-2">
             <div>
-              <span class="text-xs font-black font-num ${hasDue ? 'text-rose-600' : 'text-slate-600'}">
+              <span class="text-xs font-black font-num ${hasDue ? 'neon-text-rose' : 'text-slate-400'}">
                 ৳ ${p.balance.toLocaleString('bn-BD')}
               </span>
-              <span class="text-[9px] block font-semibold ${hasDue ? 'text-rose-500' : 'text-slate-400'}">
+              <span class="text-[9px] block font-semibold ${hasDue ? 'text-rose-400' : 'text-slate-500'}">
                 ${hasDue ? 'বাকি' : 'পরিশোধিত'}
               </span>
             </div>
-            <i class="fa-solid fa-chevron-right text-[10px] text-slate-300"></i>
+            <i class="fa-solid fa-chevron-right text-[10px] text-slate-600"></i>
           </div>
         `;
         container.appendChild(card);
@@ -1047,11 +1096,11 @@
       const suppBtn = document.getElementById('suppTabBtn');
 
       if (type === 'customer') {
-        custBtn.className = 'bg-white text-slate-900 py-1.5 rounded-xl shadow-sm transition flex items-center justify-center gap-1.5';
-        suppBtn.className = 'text-slate-600 py-1.5 rounded-xl transition flex items-center justify-center gap-1.5 hover:text-slate-900';
+        custBtn.className = 'bg-rose-600/90 text-white py-2 rounded-xl shadow-glow-rose transition flex items-center justify-center gap-2';
+        suppBtn.className = 'text-slate-400 py-2 rounded-xl transition flex items-center justify-center gap-2 hover:text-white';
       } else {
-        suppBtn.className = 'bg-white text-slate-900 py-1.5 rounded-xl shadow-sm transition flex items-center justify-center gap-1.5';
-        custBtn.className = 'text-slate-600 py-1.5 rounded-xl transition flex items-center justify-center gap-1.5 hover:text-slate-900';
+        suppBtn.className = 'bg-rose-600/90 text-white py-2 rounded-xl shadow-glow-rose transition flex items-center justify-center gap-2';
+        custBtn.className = 'text-slate-400 py-2 rounded-xl transition flex items-center justify-center gap-2 hover:text-white';
       }
       renderPartyList();
     }
@@ -1075,34 +1124,34 @@
 
       filtered.forEach(p => {
         const card = document.createElement('div');
-        card.className = 'bg-white hover:bg-slate-50/80 border border-slate-200/80 rounded-2xl p-3 flex items-center justify-between cursor-pointer active:scale-[0.99] transition shadow-sm';
+        card.className = 'cyber-glass hover:cyber-glass-active rounded-2xl p-3.5 flex items-center justify-between cursor-pointer active:scale-[0.99] transition';
         card.onclick = () => openCustomerDetailModal(p);
         const initials = p.name ? p.name.slice(0, 2).toUpperCase() : 'CU';
         const hasDue = p.balance > 0;
 
-        let avatarContent = `<div class="w-11 h-11 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center font-bold text-xs border border-slate-200">${initials}</div>`;
+        let avatarContent = `<div class="w-11 h-11 rounded-xl bg-slate-800 text-rose-400 flex items-center justify-center font-bold text-xs border border-white/10 shadow-glow-rose">${initials}</div>`;
         if (p.photo) {
-          avatarContent = `<div class="w-11 h-11 rounded-xl overflow-hidden border border-slate-200 shadow-sm"><img src="${p.photo}" class="w-full h-full object-cover" alt="${p.name}" /></div>`;
+          avatarContent = `<div class="w-11 h-11 rounded-xl overflow-hidden border border-white/20 shadow-md"><img src="${p.photo}" class="w-full h-full object-cover" alt="${p.name}" /></div>`;
         }
 
         card.innerHTML = `
           <div class="flex items-center gap-3">
             ${avatarContent}
             <div>
-              <h4 class="font-bold text-xs text-slate-900">${p.name}</h4>
+              <h4 class="font-extrabold text-xs text-white">${p.name}</h4>
               <p class="text-[10px] text-slate-400 font-num">${p.phone || 'নম্বর নেই'}</p>
             </div>
           </div>
           <div class="text-right flex items-center gap-2">
             <div>
-              <span class="text-xs font-black font-num ${hasDue ? 'text-rose-600' : 'text-slate-600'}">
+              <span class="text-xs font-black font-num ${hasDue ? 'neon-text-rose' : 'text-slate-400'}">
                 ৳ ${p.balance.toLocaleString('bn-BD')}
               </span>
-              <span class="text-[9px] block font-semibold ${hasDue ? 'text-rose-500' : 'text-slate-400'}">
+              <span class="text-[9px] block font-semibold ${hasDue ? 'text-rose-400' : 'text-slate-500'}">
                 ${hasDue ? 'বাকি' : 'পরিশোধিত'}
               </span>
             </div>
-            <i class="fa-solid fa-chevron-right text-[10px] text-slate-300"></i>
+            <i class="fa-solid fa-chevron-right text-[10px] text-slate-600"></i>
           </div>
         `;
         container.appendChild(card);
@@ -1241,21 +1290,21 @@
       const list = transactions[partyId] || [];
 
       if (list.length === 0) {
-        container.innerHTML = `<div class="text-center py-12 text-xs text-slate-400">এই খাতায় কোনো লেনদেনের রেকর্ড নেই। নিচে 'বাকি দিলাম' বা 'টাকা পেলাম' চাপুন।</div>`;
+        container.innerHTML = `<div class="text-center py-12 text-xs text-slate-500">এই খাতায় কোনো লেনদেনের রেকর্ড নেই। নিচে 'বাকি দিলাম' বা 'টাকা পেলাম' চাপুন।</div>`;
         return;
       }
 
       list.forEach(t => {
         const isDue = t.type === 'due';
         const row = document.createElement('div');
-        row.className = 'bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center justify-between';
+        row.className = 'cyber-glass p-3.5 rounded-2xl border border-white/10 flex items-center justify-between shadow-sm';
         row.innerHTML = `
           <div class="flex items-center gap-3">
-            <div class="w-9 h-9 rounded-xl flex items-center justify-center text-xs font-bold ${isDue ? 'bg-rose-50 text-rose-600 border border-rose-200' : 'bg-emerald-50 text-emerald-600 border border-emerald-200'}">
+            <div class="w-9 h-9 rounded-xl flex items-center justify-center text-xs font-bold ${isDue ? 'bg-rose-500/10 text-rose-400 border border-rose-500/30 shadow-glow-rose' : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 shadow-glow-emerald'}">
               <i class="fa-solid ${isDue ? 'fa-arrow-up' : 'fa-arrow-down'}"></i>
             </div>
             <div>
-              <h5 class="text-xs font-bold text-slate-900">${t.note || (isDue ? 'বাকি দেওয়া হলো' : 'টাকা জমা হলো')}</h5>
+              <h5 class="text-xs font-bold text-white">${t.note || (isDue ? 'বাকি দেওয়া হলো' : 'টাকা জমা হলো')}</h5>
               <div class="flex items-center gap-1.5 text-[10px] text-slate-400 mt-0.5">
                 <i class="fa-regular fa-clock text-[9px]"></i>
                 <span class="font-num">${t.date}</span>
@@ -1263,7 +1312,7 @@
             </div>
           </div>
           <div class="text-right">
-            <div class="text-xs font-black font-num ${isDue ? 'text-rose-600' : 'text-emerald-600'}">
+            <div class="text-xs font-black font-num ${isDue ? 'neon-text-rose' : 'neon-text-emerald'}">
               ${isDue ? '-' : '+'} ৳ ${t.amount.toLocaleString('bn-BD')}
             </div>
             ${t.runningBalance !== undefined ? `<span class="text-[9px] text-slate-400 font-num">জের: ৳ ${t.runningBalance.toLocaleString('bn-BD')}</span>` : ''}
@@ -1279,10 +1328,10 @@
       const btn = document.getElementById('txSubmitBtn');
       if (type === 'due') {
         title.textContent = 'বাকি দিলাম (-)';
-        btn.className = 'w-full bg-rose-600 hover:bg-rose-700 text-white font-bold py-3 rounded-2xl text-sm transition mt-3 shadow-glow-rose active:scale-98';
+        btn.className = 'w-full bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-500 hover:to-pink-500 text-white font-extrabold py-3.5 rounded-2xl text-sm transition mt-3 shadow-glow-rose active:scale-98 border border-rose-400/40';
       } else {
         title.textContent = 'টাকা পেলাম (+)';
-        btn.className = 'w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-2xl text-sm transition mt-3 shadow-glow-emerald active:scale-98';
+        btn.className = 'w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-extrabold py-3.5 rounded-2xl text-sm transition mt-3 shadow-glow-emerald active:scale-98 border border-emerald-400/40';
       }
       document.getElementById('txAmountInput').value = '';
       document.getElementById('txNoteInput').value = '';
@@ -1400,18 +1449,18 @@
       cashEntries.forEach(entry => {
         const isIn = entry.direction === 'in';
         const card = document.createElement('div');
-        card.className = 'bg-slate-50 border border-slate-200/80 p-3 rounded-2xl flex items-center justify-between';
+        card.className = 'cyber-glass p-3 rounded-2xl flex items-center justify-between border border-white/10';
         card.innerHTML = `
           <div class="flex items-center gap-2.5">
-            <div class="w-8 h-8 rounded-xl flex items-center justify-center text-xs font-bold ${isIn ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'}">
+            <div class="w-8 h-8 rounded-xl flex items-center justify-center text-xs font-bold ${isIn ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30' : 'bg-rose-500/10 text-rose-400 border border-rose-500/30'}">
               <i class="fa-solid ${isIn ? 'fa-arrow-down' : 'fa-arrow-up'}"></i>
             </div>
             <div>
-              <h5 class="text-xs font-bold text-slate-800">${entry.category}</h5>
+              <h5 class="text-xs font-bold text-white">${entry.category}</h5>
               <p class="text-[10px] text-slate-400 font-num">${entry.note ? entry.note + ' • ' : ''}${entry.time}</p>
             </div>
           </div>
-          <span class="text-xs font-black font-num ${isIn ? 'text-emerald-600' : 'text-rose-600'}">
+          <span class="text-xs font-black font-num ${isIn ? 'neon-text-emerald' : 'neon-text-rose'}">
             ${isIn ? '+' : '-'} ৳ ${entry.amount.toLocaleString('bn-BD')}
           </span>
         `;
@@ -1428,10 +1477,10 @@
 
       const submitBtn = document.getElementById('cashSubmitBtn');
       if (direction === 'in') {
-        submitBtn.className = 'w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-2xl text-sm transition mt-3 shadow-glow-emerald active:scale-98';
+        submitBtn.className = 'w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-extrabold py-3.5 rounded-2xl text-sm transition mt-3 shadow-glow-emerald active:scale-98 border border-emerald-400/40';
         submitBtn.textContent = 'ক্যাশে জমা দিন (+)';
       } else {
-        submitBtn.className = 'w-full bg-rose-600 hover:bg-rose-700 text-white font-bold py-3 rounded-2xl text-sm transition mt-3 shadow-glow-rose active:scale-98';
+        submitBtn.className = 'w-full bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-500 hover:to-pink-500 text-white font-extrabold py-3.5 rounded-2xl text-sm transition mt-3 shadow-glow-rose active:scale-98 border border-rose-400/40';
         submitBtn.textContent = 'খরচ হিসেবে কাটুন (-)';
       }
 
@@ -1605,10 +1654,10 @@
 
         if (id === targetId) {
           sec.classList.remove('hidden');
-          nav.className = 'flex flex-col items-center text-rose-600 transition';
+          nav.className = 'flex flex-col items-center text-rose-400 transition py-1 px-3 rounded-full bg-rose-500/10 border border-rose-500/20 shadow-glow-rose';
         } else {
           sec.classList.add('hidden');
-          nav.className = 'flex flex-col items-center hover:text-slate-800 text-slate-400 transition';
+          nav.className = 'flex flex-col items-center hover:text-white text-slate-400 transition py-1 px-3 rounded-full';
         }
       });
 
@@ -1641,34 +1690,34 @@
         banner.classList.add('hidden');
         btnIcon.className = 'fa-solid fa-cloud-check text-xs text-emerald-400';
         btnText.textContent = 'সিঙ্কড';
-        syncDot.className = 'absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-500 border-2 border-slate-900';
+        syncDot.className = 'absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-400 border-2 border-slate-950 shadow-[0_0_10px_rgba(52,211,153,0.8)]';
         livePulse.className = 'w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse';
         liveText.textContent = 'ক্লাউড সুরক্ষিত';
 
         badge.textContent = 'সংযুক্ত: ' + (currentUser.displayName || 'Google');
-        badge.className = 'text-[10px] bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full font-bold';
+        badge.className = 'text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2.5 py-0.5 rounded-full font-bold';
         
         area.innerHTML = `
           <div class="mb-3 text-center">
-            <img src="${currentUser.photoURL || 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'}" class="w-12 h-12 rounded-full mx-auto mb-1.5 border border-slate-200" />
-            <h5 class="font-bold text-xs text-slate-900">${currentUser.displayName || 'ব্যবহারকারী'}</h5>
-            <p class="text-[10px] text-slate-500">${currentUser.email || ''}</p>
+            <img src="${currentUser.photoURL || 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'}" class="w-12 h-12 rounded-full mx-auto mb-1.5 border border-white/20 shadow-md" />
+            <h5 class="font-bold text-xs text-white">${currentUser.displayName || 'ব্যবহারকারী'}</h5>
+            <p class="text-[10px] text-slate-400 font-num">${currentUser.email || ''}</p>
           </div>
-          <p class="text-xs text-emerald-600 font-bold mb-3">Google একাউন্ট সফলভাবে সিঙ্ক রয়েছে!</p>
-          <button onclick="handleSignOut()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2 rounded-xl text-xs active:scale-95 transition">
+          <p class="text-xs text-emerald-400 font-bold mb-3">Google একাউন্ট সফলভাবে সিঙ্ক রয়েছে!</p>
+          <button onclick="handleSignOut()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold py-2 rounded-xl text-xs active:scale-95 transition border border-white/10">
             লগআউট করুন
           </button>
         `;
       } else {
         banner.classList.remove('hidden');
-        btnIcon.className = 'fa-solid fa-cloud text-xs text-rose-400';
+        btnIcon.className = 'fa-solid fa-bolt text-xs text-rose-400';
         btnText.textContent = 'লগইন';
-        syncDot.className = 'absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-amber-500 border-2 border-slate-900';
+        syncDot.className = 'absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-amber-400 border-2 border-slate-950 shadow-[0_0_10px_rgba(251,191,36,0.8)]';
         livePulse.className = 'w-1.5 h-1.5 rounded-full bg-amber-400';
         liveText.textContent = 'লগইন প্রয়োজন';
 
         badge.textContent = 'লগইন';
-        badge.className = 'text-[10px] bg-slate-100 text-slate-600 border border-slate-200 px-2.5 py-0.5 rounded-full font-bold';
+        badge.className = 'text-[10px] bg-slate-800 text-slate-400 border border-white/10 px-2.5 py-0.5 rounded-full font-bold';
       }
     }
 
